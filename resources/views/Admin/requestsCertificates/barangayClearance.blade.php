@@ -1,6 +1,11 @@
 @extends('layout.dashboard-layout')
 @section('content')
-
+<style>
+    .card{
+        font-family: Arial;
+        color:black;
+    }
+</style>
 <div class="main-panel">
   <div class="content">
     <div class="panel-header bg-primary-gradient">
@@ -15,12 +20,12 @@
     <div class="page-inner">
       <div class="row mt--2">
         <div class="col-md-12">
-            {{-- <div class="card-tools mb-2">
+            <div class="card-tools mb-2">
                 <button class="btn btn-info btn-border btn-round btn-sm" onclick="printDiv('printThis')">
                   <i class="fa fa-print"></i>
                   Print Certificate
                 </button>
-              </div> --}}
+              </div>
           <div class="card">
             <div class="card-body mb-5" style="padding: 5%; justify;" id="printThis">
               <div class="d-flex flex-wrap justify-content-around" style="border-bottom:2px solid black">
@@ -215,14 +220,14 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="border" style="height:350px;width:400px;margin-top:30px;margin-left:80px"></div>
+                        <div class="border" style="height:300px;width:400px;margin-top:30px;margin-left:80px"></div>
                         <h4 class="text-uppercase" style="text-indent:150px; padding-top:10px; ">NOT VALID WITHOUT SEAL</h4>
                       </div>
                       <div class="col-md-6">
                         <div class="pt-5 text-center mr-4">
                             <h4 class="fw-bold mt-5 text-uppercase">
 
-                              <u>{{$barangay_head->name}}</u><br /> 
+                              <u>{{$barangay_head->name}}</u><br />
                               <p>
                                 {{-- {{$official->position}}--}} PUNONG BARANGAY
                               </p>
@@ -249,18 +254,16 @@
 </div>
 
 <!--End of Modal-->
-
 <script>
-    $(document).ready(function(){
-        var printContents = $("body").html();
-         var originalContents = document.body.innerHTML;
-         document.body.innerHTML = printContents;
-         window.print();
-         document.body.innerHTML = originalContents;
-         setTimeout(function(){
-                 window.close();
-      }, 5000);
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
 
-    })
-    </script>
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+  </script>
 @endsection

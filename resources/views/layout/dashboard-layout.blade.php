@@ -56,9 +56,11 @@
 
   </head>
   <body class="vertical">
+    {{-- Use na din to For Permission Role --}}
     @php
       $user = Auth::user();
     @endphp
+    {{-- End Permission Role --}}
     <div class="wrapper">
       <nav class="topnav navbar ">
         <button type="button" class="navbar-toggler text-muted mt-2 p-0 mr-3 collapseSidebar">

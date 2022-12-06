@@ -15,9 +15,8 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\AdminResidentsController;
 use App\Http\Controllers\BarangayOfficialController;
 use App\Http\Controllers\UserRegistrationController;
-use App\Http\Controllers\CreateDocumentController;
 
-/* 
+/*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -170,8 +169,9 @@ Route::post('/documentStore', [FilesController::class, 'documentStore']);
 Route::get('/deleteDocument/{id}', [FilesController::class, 'deleteDocument']);
 
 //Update Data from Documents
-Route::put('/updateDocument/{createdocument}', [FilesController::class, 'updateDocument']);
+// Route::put('/updateDocument/{createdocument}', [FilesController::class, 'updateDocument']);
 
+Route::get('/reports/{category}', [FilesController::class, 'search_reports'])->middleware('auth');
 
 //Settings
 Route::get('/settings', [SettingsController::class, 'settings'])->middleware('auth');

@@ -22,6 +22,7 @@ class CreateFilesTable extends Migration
       $table->enum('category', ['accomplishment', 'financial', 'blotter']);
       $table->softDeletes();
       $table->timestamps();
+      $table->text('description');
 
       // $table->foreign('user_id')
       //     ->references('id')

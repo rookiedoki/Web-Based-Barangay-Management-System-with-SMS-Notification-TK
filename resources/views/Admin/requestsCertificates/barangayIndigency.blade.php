@@ -1,7 +1,11 @@
 @extends('layout.dashboard-layout')
 @section('content')
-
-
+<style>
+    .card{
+        font-family: Arial;
+        color: black;
+    }
+</style>
 <div class="main-panel">
   <div class="content">
     <div class="panel-header bg-primary-gradient">
@@ -16,17 +20,13 @@
     <div class="page-inner">
       <div class="row mt-2">
         <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-head-row">
-                <div class="card-tools">
-                  <button class="btn btn-info btn-border btn-round btn-sm" onclick="printDiv('printThis')">
-                    <i class="fa fa-print"></i>
-                    Print Certificate
-                  </button>
-                </div>
+            <div class="card-tools mb-2">
+                <button class="btn btn-info btn-border btn-round btn-sm" onclick="printDiv('printThis')">
+                  <i class="fa fa-print"></i>
+                  Print Certificate
+                </button>
               </div>
-            </div>
+          <div class="card">
             <div class="card-body m-5" id="printThis">
               <div class="d-flex flex-wrap justify-content-around" style="border-bottom:1px solid blue">
                 <div class="text-center">
@@ -101,20 +101,15 @@
 
 <!--End of Modal-->
 <script>
-  function openModal() {
-    $('#barangayIndigency').modal('show');
-  }
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
 
-  function printDiv(divName) {
-    console.log(divName);
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
 
-    document.body.innerHTML = printContents;
+        window.print();
 
-    window.print();
-
-    document.body.innerHTML = originalContents;
-  }
-</script>
+        document.body.innerHTML = originalContents;
+    }
+  </script>
 @endsection

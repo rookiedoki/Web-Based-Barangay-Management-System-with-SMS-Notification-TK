@@ -23,7 +23,7 @@ class BarangayOfficialController extends Controller
 
        //Barangay Official Storing Data
        public function storeOfficial(Request $request){
-        
+
         $formFields = $request->validate([
             'name' =>'required',
             'age' =>['required','numeric'],
@@ -33,7 +33,7 @@ class BarangayOfficialController extends Controller
             'phone_number' => ['required','numeric'],
             'email' =>'required',
             'official_image' => 'required',
-           
+
         ]);
 
         if($request->hasFile('official_image')){
@@ -55,10 +55,10 @@ class BarangayOfficialController extends Controller
 
  }
 
- 
+
   //Update Barangay Officialss
   public function updateOfficial(Request $request, barangayOfficial $official){
-        
+
     $formFields = $request->validate([
         'name' =>'required',
         'age' =>['required','numeric'],
@@ -67,7 +67,7 @@ class BarangayOfficialController extends Controller
         'position' =>'required',
         'phone_number' => ['required','numeric'],
         'email' =>['required', Rule::unique('users','email')]
-       
+
     ]);
     if($request->hasFile('official_image')){
         $formFields['official_image'] = $request->file('official_image')->store('images', 'public');
@@ -84,7 +84,7 @@ class BarangayOfficialController extends Controller
     return view('adminLoginPage');
 
 }
-    
+
 
 
 }

@@ -139,7 +139,7 @@
                 <div class="input-group">
                   <div class="form-outline">
                     <label for="search" class="sr-only">Search</label>
-                    <input type="text" value="{{\Request::get('search')}}" class="form-control mb-1" id="search" name="search" value="" placeholder="Search">
+                    <input type="text" value="{{\Request::get('search')}}" class="form-control mb-1" id="search" name="search" value="" placeholder="Search for Filename">
                   </div>
                   <button type="submit" class="btn btn-primary mb-1"><i class="fa fa-search"></i></button>
                 </div>
@@ -149,13 +149,13 @@
         <br />
 
         <table class="table w3-container">
-          <thead>
+          <thead style="background-color: #8d8d8d88; color:#eee !important;">
             <tr>
               {{-- <th scope="col">#</th> --}}
-              <th scope="col">Name</th>
-              <th scope="col">Date Uploaded</th>
+              <th scope="col" style="font-weight: bold">FILENAME</th>
+              <th scope="col" style="font-weight: bold">DATE UPLOADED</th>
               {{-- <th scope="col">Type</th> --}}
-              <th scope="col">Action</th>
+              <th scope="col" style="font-weight: bold">ACTION</th>
             </tr>
           </thead>
           <tbody>
@@ -164,14 +164,19 @@
               <td width="40%">{{ $file->name }}</td>
               <td width="30%">{{ Carbon\Carbon::parse($file->created_at)->format('F d, Y (l)') }}</td>
               <td width="30%">
+                @if($file->size)
                 <a href="{{url('file/'.$file->name)}}"><button class="btns btn1"><i class="fa fa-eye"></i></button></a>
+                @endif
+                @if(!$file->size)
+                <a href="{{route('print-document')}}?id={{$file->id}}" target="_blank"><button class="btns btn1"><i class="fa fa-eye"></i></button></a>
+                @endif
                 @if(!$file->deleted_at)
                 <a href="#deleteFile{{$file->id}}" data-toggle="modal"><button class="btns btn2"><i class="fa fa-trash"></i></button></a>
                 @endif
                 @if(isset($file->size))
                 <a href="{{url('file/'.$file->name)}}" download><button class="btns btn3"><i class="fa fa-download"></i></button></a>
                 @else
-                <a href="#createDocument{{$file->id}}" target="_blank"><button class="btns btn3"><i class="fa fa-download"></i></button></a>
+                <a href="{{route('print-document')}}?id={{$file->id}}" target="_blank"><button class="btns btn3"><i class="fa fa-download"></i></button></a>
                 <!-- <a class="print" href="" target="_blank"><button class="btns print btn-info"><i class="fa fa-print"></i></button></a> -->
                 @endif
               </td>
@@ -201,11 +206,16 @@
                 </div>
               </div>
             </div>
+
+@endforeach
 {{-- --------------------------------------------Add Document----------------------------------------- --}}
-                @endforeach
+
 
           </tbody>
         </table>
+        {{-- <div class="clearfix">
+            {{$files->links()}}
+        </div> --}}
         {{-- --}}
       </div>
     </div>
@@ -266,6 +276,63 @@
             </div>
     </div>
 </div>
+ {{-- --------------------------------------------------Edit Document--------------------------------------------------- --}}
+ <div id="createDocument2" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+          <form action="{{route('all-functions',['id'=>'add-document'])}}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Document</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+
+                  <input name="category" value="{{$category}}" type="hidden"/>
+            <div class="row register-form">
+                <div class="col-sm-12">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control" name="title" value="" required autocomplete="title">
+
+                            @Error('title')
+                                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                            @enderror
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="row register-form">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="modal-body">
+                                <p><label for="content">Content</label></p>
+                                <textarea  id="dis_summernote"  class="form-control" name="content" rows="5" cols="50"></textarea>
+                        </div>
+
+                        @Error('content')
+                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                        @enderror
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-success" value="Save">
+                </div>
+
+            </form>
+        </div>
+</div>
+</div>
+
+
 @endsection
 @section('script')
 <script>

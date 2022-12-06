@@ -133,7 +133,8 @@ class CertificateController extends Controller
     }
     $cer =  $certificate->admin_resident;
     $barangay_head = barangayOfficial::where('position','Barangay Captain')->first();
-    return view('admin.requestsCertificates.barangayIndigency', ['cer' => $cer,'barangay_head'=>$barangay_head]);
+    $barangay_secretary = barangayOfficial::where('position','Barangay Secretary')->first();
+    return view('admin.requestsCertificates.barangayIndigency', ['cer' => $cer,'barangay_head'=>$barangay_head,'barangay_secretary'=>$barangay_secretary]);
   }
   public function deleteRequest($id)
   {

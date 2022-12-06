@@ -20,7 +20,6 @@ class AdminResidentsController extends Controller
 
       //Show Admin Residents Form
     public function residents(){
-
         $resident = AdminResidents::where('status', '=', '1')->paginate(4);
         return view('Admin.Residents.residents',['resident'=>$resident]);
     }

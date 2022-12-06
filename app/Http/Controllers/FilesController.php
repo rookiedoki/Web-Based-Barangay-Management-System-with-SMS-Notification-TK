@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Helper\ActivityLog;
 use App\Models\File;
 use Session;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use App\Http\Requests\StoreFileRequest;
@@ -26,15 +27,16 @@ class FilesController extends Controller
       'search' => 'nullable|string',
       'show' => 'nullable|string|in:yes,no',
     ]);
+    // $files = File::paginate(5);
     $files = File::where('category', '=', $category ?? 'accomplishment')
-      ->when($request->show == 'yes', function ($query) {
+      ->when($request->show == 'yes', function ($query){
         return $query->onlyTrashed();
       })
-    //   ->get()
       ->when($request->search, function ($query) use ($request) {
         return $query->where('name', 'like', '%' . $request->search . '%');
       })
-      ->orderBy('id','ASC')->get();
+      ->orderBy('id','DESC')->get();
+
     return view('admin.compilationOfReports.reports', ['files' =>  $files, 'category' => $category]);
   }
   /**
@@ -115,15 +117,25 @@ class FilesController extends Controller
   public function viewFile($id)
   {
     $file = File::find($id);
-    return view('admin.compilationOfReports.file', ['file' => $file]);
+    return view('admin.compilationOfReports.reports', ['file' => $file]);
   }
 
 // Create Document
 
-  public function createdocument(){
-    $files= CreateDocument::all();
-    return view('admin.compilationOfReports.reports',['files'=>$files]);
-}
+//   public function createdocument(){
+//     $files= Files::all();
+//     return view('admin.compilationOfReports.reports',['files'=>$files]);
+// }
+// // Update Document
+// public function updateDocument(Request $request, File $createdocument){
+//     // dd($request->all());
+//     $formFields = $request->validate([
+//         'title' =>'required',
+//         'content' =>'required',
+//     ]);
+//     $createdocument->update($formFields);
+//     return back()->with('message', 'File Updated Successfully!');
+// }
 
 //Announcement Storing Data
 public function documentStore(Request $request){
@@ -143,21 +155,6 @@ public function documentStore(Request $request){
 
     return back()->with('message', 'File Saved!');
 }
-
-
-//Announcement Update Data
-public function updateDocument(Request $request, CreateDocument $createdocument){
-    // dd($request->all());
-    $formFields = $request->validate([
-        'title' =>'required',
-        'content' =>'required',
-    ]);
-
-    $createdocument->update($formFields);
-    return back()->with('message', 'File Updated Successfully!');
-
-}
-
 
 
 public function deleteDocument($id)
