@@ -4,6 +4,7 @@
     .card{
         font-family: Arial;
         color:black;
+        margin: 10px;
     }
 </style>
 <div class="main-panel">
@@ -18,7 +19,7 @@
       </div>
     </div>
     <div class="page-inner">
-      <div class="row mt--2">
+      <div class="row mt-2">
         <div class="col-md-12">
             <div class="card-tools mb-2">
                 <button class="btn btn-info btn-border btn-round btn-sm" onclick="printDiv('printThis')">
