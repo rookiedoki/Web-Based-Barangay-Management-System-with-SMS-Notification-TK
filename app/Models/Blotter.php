@@ -18,6 +18,7 @@ class Blotter extends Model
     'time',
     'details',
     'proof',
+    'phone_number',
     'status',
   ];
 }

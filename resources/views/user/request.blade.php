@@ -174,7 +174,7 @@
                                                 <select class="form-control" name="purpose" id="form6Example4" onchange="showPurpose();" required>
                                                     <option class="default" value="Payment Method">-- Purpose of Request --</option>
                                                     <option class="form-control" value="Application of scholarship">Application of scholarship</option>
-                                                    <option class="form-control" value="Availment of government identification cards<">Availment of government identification cards</option>
+                                                    <option class="form-control" value="Availment of government identification cards">Availment of government identification cards</option>
                                                     <option class="form-control" value="Application of loans">Application of loans</option>
                                                     <option class="form-control" value="Proof of belonging into indigent family">Proof of belonging into indigent family</option>
                                                     <option class="form-control" value="Valid proof of identity">Valid proof of my identity</option>

@@ -328,6 +328,8 @@ Route::put('/updateProfile', [UserController::class, 'updateProfile']);
 //Homepage Client-Side
 Route::get('/', [HomeController::class, 'landingPage']);
 
+Route::get('/portfolio-details', [HomeController::class, 'brngyportfolio']);
+
 //User PWD profiling
 Route::get('/pwd', [ProfilingController::class, 'pwd']);
 
@@ -357,3 +359,8 @@ Route::get('/userProfiling', [ProfilingController::class, 'userProfiling'])->mid
 
 //User PWDs Form and Storing Data
 Route::post('/storePregnant', [ProfilingController::class, 'storePregnant']);
+
+//SMS
+Route::get('messages', [SMSController::class, 'show']);
+Route::post('messages', [SMSController::class, 'storePhoneNumber']);
+Route::post('messages/custom', [SMSController::class, 'sendCustomMessage']);

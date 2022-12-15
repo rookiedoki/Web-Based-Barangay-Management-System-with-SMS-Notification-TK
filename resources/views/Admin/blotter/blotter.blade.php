@@ -55,8 +55,8 @@
       <thead>
         <tr>
           <th>Complainant</th>
-          <th>Respondent</th>
-          <th>Victim</th>
+          {{-- <th>Respondent</th>
+          <th>Victim</th>--}}
           <th>Location</th>
           <th>Date</th>
           <th>Status</th>
@@ -67,12 +67,12 @@
       @foreach($blo as $blotter)
       <tbody>
         <tr>
-          <td class="show">{{$blotter->complainant}}</td>
-          <td class="show">{{$blotter->respondent}}</td>
-          <td class="show">{{$blotter->victim}}</td>
-          <td class="show">{{$blotter->location}}</td>
-          <td class="show">{{$blotter->date}}</td>
-          <td width="15%">
+          <td class="show" width="25%">{{$blotter->complainant}}</td>
+          {{-- <td class="show">{{$blotter->respondent}}</td> --}}
+          {{-- <td class="show">{{$blotter->victim}}</td> --}}
+          <td class="show" width="30%">{{$blotter->location}}</td>
+          <td class="show" width="20%">{{$blotter->date}}</td>
+          <td width="20%">
             @if($blotter->estado == 'pending')
             <a href="#editBlotterModal{{$blotter->id}}" class="edit" data-toggle="modal"><button class="btn"><i class="fa fa-eye"></i></button></a>
             @elseif($blotter->estado == 'approved')
@@ -85,112 +85,8 @@
             </td>
             <td>
             <a href="#deleteBlotterModal{{$blotter->id}}" data-toggle="modal"><button class="btns btn2"><i class="fa fa-trash"></i></button></a>
-            {{-- <a href="{{url('viewFile',$file->id)}}" data-toggle="modal"><button class="btns btn3"><i class="fa fa-download"></i></button></a> --}}
-
-            {{-- <a href="#editBlotterModal{{$blotter->id}}" class="edit" data-toggle="modal" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-            <a href="#deleteBlotterModal{{$blotter->id}}" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-            <a href="{{url('viewBlotter',$blotter->id)}}"><i class="fas fa-eye fa-minimize"></i></a> --}}
           </td>
         </tr>
-        <!---------------------------------------- SHOW Blotter Modal HTML -------------------------------------->
-        <div id="showBlotterModal{{$blotter->id}}" class="modal fade">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form>
-                <div class="modal-header">
-                  <h4 class="modal-title">View Blotter</h4>
-                  {{-- <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light"><i class="fa fa print"></i></a> --}}
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <div class="page-content page-container" id="page-content">
-                    <div class="padding">
-                      <div class="row container d-flex justify-content-center">
-                        <div class="col-xl-12 col-md-12">
-                          <div class="card user-card-full">
-                            <div class="row m-l-0 m-r-0">
-                              <div class="col-sm-4 bg-c-lite-green user-profile">
-                                <div class="card-block text-center text-white">
-                                  <h4 class="f-w-600">{{$blotter->first_name}} {{$blotter->last_name}}</h4>
-                                </div>
-                              </div>
-                              <div class="col-sm-8">
-                                <div class="card-block">
-                                  <h5 class="textTitle b-b-default">Information</h5>
-                                  <div class="row">
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">First name: {{$blotter->first_name}}</p>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Middle Name: {{$blotter->middle_name}}</p>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Last Name: {{$blotter->last_name}}</p>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Age: {{$blotter->age}}</p>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Gender: {{$blotter->gender}}</p>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Birthdate {{$blotter->birthdate}}</p>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Citizenship: {{$blotter->citizenship}}</p>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Voter Status: {{$blotter->voter_status}}</p>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Civil Status: {{$blotter->civil_status}}</p>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Occupation: {{$blotter->occupation}}</p>
-                                    </div>
-                                  </div>
-                                  <h5 class="textTitle b-b-default">Contact Information</h5>
-                                  <div class="row">
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Phone Number</p>
-                                      <h6 class="text-muted f-w-400">{{$blotter->phone_number}}</h6>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      <p class="m-b-10 f-w-600">Email Address</p>
-                                      <h6 class="text-muted f-w-400">{{$blotter->email}}</h6>
-                                    </div>
-                                  </div>
-
-                                  <ul class="social-link list-unstyled m-t-40 m-b-10">
-                                    <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="facebook" data-abc="true"><i class="mdi mdi-facebook feather icon-facebook facebook" aria-hidden="true"></i></a></li>
-                                    <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="twitter" data-abc="true"><i class="mdi mdi-twitter feather icon-twitter twitter" aria-hidden="true"></i></a></li>
-                                    <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="instagram" data-abc="true"><i class="mdi mdi-instagram feather icon-instagram instagram" aria-hidden="true"></i></a></li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Back">
-                </div>
-
-              </form>
-            </div>
-          </div>
-        </div>
 
         <!---------------------------------------- Delete Blotter Modal HTML -------------------------------------->
         <div id="deleteBlotterModal{{$blotter->id}}" class="modal fade">
@@ -223,26 +119,50 @@
             <div class="modal-content">
               <div>
                 <div class="modal-header">
-                  <h4 class="modal-title">Show Blotter Complaint Details</h4>
+                  <h4 class="modal-title">Blotter Complaint Details</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="row register-form">
                   <div class="col-sm-12">
                     <div class="modal-body">
+
+                      <div class="form-group">
+                        <label class="fw-bold">Complainant</label>
+                        <input class="form-control" style="font-size:15px" rows="5" value="{{ $blotter->complainant }}" disabled>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="fw-bold">Complainant's Phone Number</label>
+                        <input class="form-control" style="font-size:15px" rows="5" value="{{ $blotter->phone_number }}" disabled>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="fw-bold">Respondents</label>
+                        <input class="form-control" style="font-size:15px" rows="5" value="{{ $blotter->respondent }}" disabled>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="fw-bold">Victim/s</label>
+                        <input class="form-control" style="font-size:15px" rows="5" value="{{ $blotter->victim }}" disabled>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="fw-bold">Location</label>
+                        <input class="form-control" style="font-size:15px" rows="5" value="{{ $blotter->location }}" disabled>
+                      </div>
+
                         <div class="form-group">
-                          <label>Details</label>
-                          {{-- <input type="text" class="form-control" name="details" value="{{$blotter->details}}" disabled> --}}
-                          <textarea class="form-control fw-bold" style="font-size:15px" rows="5" disabled>{{ $blotter->details }}</textarea>
+                          <label class="fw-bold">Details</label>
+                          <textarea class="form-control" style="font-size:15px" rows="5" disabled>{{ $blotter->details }}</textarea>
                         </div>
-                        @Error('location')
-                        <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                        @enderror
+
                       </div>
                   </div>
                   <div class="col-sm-12">
                     <div class="modal-body">
+                      <label class="fw-bold">Proof</label>
                         <div id="image-show-area">
-                            <img class="proof" src="{{$blotter->proof ? asset ('storage/' .$blotter->proof) : asset('/storage/images/-image.png')}}" alt="proof"  />
+                            <img class="proof" src="{{$blotter->proof ? asset ('storage/' .$blotter->proof) : asset('/storage/images/-image.png')}}" alt="proof" style="width: 100%" />
                         </div>
                     </div>
                   </div>

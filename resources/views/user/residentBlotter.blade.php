@@ -154,7 +154,7 @@
                                 </div>
                             </div><br />
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon2"><i class="bi bi-image-fill"></i></span>
                                     <input type="file" name="proof" class="form-control" id="proof" multiple="multiple" />
@@ -162,6 +162,12 @@
                                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                                     @enderror
                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon2"><i class="bi bi-telephone-fill"></i></span>
+                                    <input type="tel" class="form-control" name="phone_number" placeholder="Enter your phone number here ..." required>
+                                  </div>
                                 </div>
                             </div><br />
                             <div class="row">

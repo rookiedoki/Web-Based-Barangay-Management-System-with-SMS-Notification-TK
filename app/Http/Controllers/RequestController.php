@@ -100,6 +100,7 @@ class RequestController extends Controller
       'time'          => 'required',
       'details'       => 'required',
       'proof'         => 'nullable|image|mimes:jpeg,png,jpg|max:5120000',
+      'phone_number'  => 'required',
     ]);
     if ($request->hasFile('proof')) {
         $formFields['proof'] = $request->file('proof')->store('images', 'public');

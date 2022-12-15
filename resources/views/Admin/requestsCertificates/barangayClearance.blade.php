@@ -23,7 +23,7 @@
                   Print Certificate
                 </button>
               </div>
-        <form>
+        {{-- <form> --}}
           <div class="card" id="printThis">
             <div class="card-body cardprint" style="padding: 5%; justify;" id="printThis">
               <div class="d-flex flex-wrap justify-content-around" style="border-bottom:2px solid black">
@@ -55,7 +55,7 @@
 
                   <p class="mt-5">TO WHOM IT MAY CONCERN:</p>
                   @foreach($setting as $settings)
-                    <img style="height: 550px; opacity: 0.3; position: absolute; margin-left: 15%;" src="{{$settings->barangay_logo ? asset ('storage/' .$settings->barangay_logo) : asset('/storage/no/-image.png')}}">
+                    <img style="height: 550px; opacity: 0.3; position: absolute; margin-left: 18%;" src="{{$settings->barangay_logo ? asset ('storage/' .$settings->barangay_logo) : asset('/storage/no/-image.png')}}">
                   @endforeach
 
                   <p class="mt-3" style="text-indent: 40px;">
@@ -68,7 +68,7 @@
                                 <p class="mt-3 fw-bold" style="text-indent: 40px; text-align: left;">LAST NAME</p>
                             </div>
                             <div class="col-5">
-                                <p class="mt-3" style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->last_name}}</p>
+                                <p class="mt-3 text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->last_name}}</p>
                             </div>
                         </div>
 
@@ -77,7 +77,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">GIVEN NAME</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent:10px; border-bottom:1px solid black;">: {{$cer->first_name}}</p>
+                                <p class="text-capitalize" style="text-indent:10px; border-bottom:1px solid black;">: {{$cer->first_name}}</p>
                             </div>
                         </div>
 
@@ -86,7 +86,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">MIDDLE NAME</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->middle_name}}</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->middle_name}}</p>
                             </div>
                         </div>
 
@@ -95,7 +95,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">GENDER</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->gender}}</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->gender}}</p>
                             </div>
                         </div>
 
@@ -104,7 +104,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">CITIZENSHIP</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->citizenship}}</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->citizenship}}</p>
                             </div>
                         </div>
 
@@ -113,7 +113,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">STREET</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->street}}</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->street}}</p>
                             </div>
                         </div>
 
@@ -122,7 +122,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">BIRTHDATE</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->birthdate}}</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->birthdate}}</p>
                             </div>
                         </div>
 
@@ -131,7 +131,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">BIRTHPLACE</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->place_of_birth}}</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->place_of_birth}}</p>
                             </div>
                         </div>
 
@@ -140,7 +140,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">MARITAL STATUS</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->civil_status}}</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->civil_status}}</p>
                             </div>
                         </div>
 
@@ -149,7 +149,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">OCCUPATION</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->occupation}}</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: {{$cer->occupation}}</p>
                             </div>
                         </div>
 
@@ -158,7 +158,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">REMARKS</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">:-</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: No Derogatory Record</p>
                             </div>
                         </div>
 
@@ -167,7 +167,7 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">DATE ISSUED</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">: {{ Carbon\Carbon::parse($cer->created_at)->format('F d, Y') }}</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: {{ Carbon\Carbon::parse($cer->created_at)->format('F d, Y') }}</p>
                             </div>
                         </div>
 
@@ -176,18 +176,18 @@
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">AMOUNT PAID</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">: &#8369; 50.00</p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">: &#8369; 50.00</p>
                             </div>
                         </div>
 
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-5">
                                 <p class="fw-bold" style="text-indent: 40px; text-align: left;">OR NUMBER</p>
                             </div>
                             <div class="col-5">
-                                <p style="text-indent: 10px; border-bottom:1px solid black;">:<input type="number"></p>
+                                <p class="text-capitalize" style="text-indent: 10px; border-bottom:1px solid black;">:<input type="number"></p>
                             </div>
-                        </div>
+                        </div> --}}
 
                   </div>
                   <div class="col-5">
@@ -210,20 +210,22 @@
                         </div>
                     </div>
                   </div>
-                   <p class="mt-3" style="text-indent: 40px;">This certification issued from the purpose of Valid for 5 months from date issued.</p>
-                </div>
+
+                   <p class="mt-3" style="text-indent: 40px;">This certification issued from the purpose {{$cer->purpose}} of valid for 5 months from date issued.</p>
+
+                  </div>
 
                 <div class="row">
                     <div class="col-md-7">
-                        <div class="border" style="height:300px;width:400px;margin-top:30px;margin-left:80px"></div>
-                        <p class="text-uppercase" style="text-indent:150px; padding-top:10px; ">NOT VALID WITHOUT SEAL</p>
+                        {{-- <div class="border" style="height:300px;width:400px;margin-top:30px;margin-left:80px"></div> --}}
+                        <p class="text-uppercase" style="text-indent:150px; padding-top:10px; "><i>NOT VALID WITHOUT DRY SEAL:</i></p>
                       </div>
                       <div class="col-md-5">
                         <div class="pt-5 text-center">
                             <p class="fw-bold mt-5 mb-0 text-uppercase">
                               <u>{{$barangay_head->name}}</u><br />
                               <p>
-                                PUNONG BARANGAY
+                                BARANGAY CAPTAIN
                               </p>
                             </p>
                           </div>
@@ -241,8 +243,8 @@
             </div>
           </div>
         </div>
-        <input type="submit" class="btn btn-success" value="Save">
-    </form>
+        {{-- <input type="submit" class="btn btn-success" value="Save"> --}}
+    {{-- </form> --}}
       </div>
     </div>
   </div>

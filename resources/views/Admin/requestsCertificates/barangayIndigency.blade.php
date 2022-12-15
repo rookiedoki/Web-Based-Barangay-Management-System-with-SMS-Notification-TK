@@ -26,21 +26,22 @@
                   Print Certificate
                 </button>
               </div>
-          <div class="card">
-            <div class="card-body m-5" id="printThis">
-              <div class="d-flex flex-wrap justify-content-around" style="border-bottom:1px solid blue">
+          <div class="card" id="printThis">
+            <div class="card-body cardprint" style="padding: 5%; justify;" id="printThis">
+              <div class="d-flex flex-wrap justify-content-around" style="border-bottom:2px solid black">
                 <div class="text-center">
                   @foreach($setting as $settings)
                   <img src="{{$settings->barangay_logo ? asset ('storage/' .$settings->barangay_logo) : asset('/storage/no/-image.png')}}" class="img-fluid" width="100" style="padding-bottom: 15%">
                   @endforeach
                 </div>
                 <div class="text-center">
-                  <h4 class="mb-0">Republic of the Philippines</h4>
-                  <h5 class="mb-0">Province of Camarines Sur</h5>
-                  <h5 class="mb-0">Municipality of Nabua</h5>
+                  <p class="mb-0">Republic of the Philippines</p>
+                  <p class="mb-0">Province of Camarines Sur</p>
+                  <p class="mb-0">Municipality of Nabua</p>
                   @foreach($setting as $settings)
-                  <h5 class="fw-bold mb-0">{{$settings->barangay_name}}</i></h5>
+                  <p class="text-uppercase mb-0">BARANGAY {{$settings->barangay_name}}</p>
                   @endforeach
+                  <p class="mt-4 fs-5 fw-bolder text-center mb-0">OFFICE OF THE PUNONG BARANGAY</p>
                 </div>
                 <div class="text-center">
                   @foreach($setting as $settings)
@@ -52,38 +53,49 @@
 
                 <div class="col-md-12">
                   <div class="text-center">
-                    <h5 class="mt-4 fw-bold">OFFICE OF THE BARANGAY CAPTAIN</h5>
+                    <p class="mt-5 fw-bold fs-3 text-center">BARANGAY INDIGENCY</p>
                   </div>
-                  <div class="text-center">
-                    <h5 class="mt-4 fw-bold mb-5 text-center">BARANGAY INDIGENCY</h5>
-                  </div>
-                  <h6>RE/ SUBJECT: CERTIFICATE OF INDIGENCY</h6>
-                  <h6 class="mt-5">TO WHOM IT MAY CONCERN:</h6>
-                  <h6 class="mt-3" style="text-indent: 40px;">This is to certify that <span class="fw-bold" style="font-size:15px">{{$cer->first_name}} {{$cer->last_name}}</span>, of legal age, <span class="fw-bold text-lowercase" style="font-size:15px">{{$cer->gender}}</span>, <span class="fw-bold text-lowercase" style="font-size:15px">{{$cer->civil_status}}</span> is a permanent resident of
-                    <span class="fw-bold" style="font-size:15px">{{$cer->street}}</span> has no derogatory record field in our Barangay Office
-                  </h6>
-                  <h6 class="mt-3" style="text-indent: 40px;">The above-named individual who is a bonafide resident of this barangay is a person of good moral character, peace-loving and civic minded citizen.</h6>
-                  <h6 class="mt-3" style="text-indent: 40px;">This certification/clearance is hereby issued in connection with the subject's application for and for whatever legal purpose it may serve her/his best, and is valid for six(6) months from the date issued.</h6>
-                  <h6 class="mt-3" style="text-indent: 40px;">Given this on <span class="fw-bold" style="font-size:15px"><?= date('l, F j, Y') ?>.</span></h6>
-                  <h6 class="text-uppercase" style="margin-top:180px;">NOT VALID WITHOUT SEAL:</h6>
+                  @foreach($setting as $settings)
+                  <img style="height: 550px; opacity: 0.3; position: absolute; margin-left: 18%;" src="{{$settings->barangay_logo ? asset ('storage/' .$settings->barangay_logo) : asset('/storage/no/-image.png')}}">
+                  @endforeach
+                  <p style="padding-top:50px; font-size:13pt;">RE/ SUBJECT: <b>CERTIFICATE OF INDIGENCY</b></p>
+
+                  <p class="mt-5 fs-6">TO WHOM IT MAY CONCERN:</p>
+                  <p class="mt-3 fs-6" style="text-indent: 40px;">This is to certify that {{$cer->first_name}} {{$cer->last_name}}, of legal age, {{$cer->gender}}, {{$cer->civil_status}} is a permanent resident of {{$cer->street}} has no derogatory record field in our Barangay Office
+                  </p>
+                  <p class="mt-3 fs-6" style="text-indent: 40px;">The above-named individual who is a bonafide resident of this barangay is a person of good moral character, peace-loving and civic minded citizen.</p>
+                  <p class="mt-3 fs-6" style="text-indent: 40px;">This certification/clearance is hereby issued in connection with the subject's application for and for whatever legal purpose it may serve her/his best, and is valid for six(6) months from the date issued.</p>
+                  <p class="mt-3 fs-6" style="text-indent: 40px;">Given this on <?= date('l, F j, Y') ?>.</p>
+                  <p class="fs-6" style="margin-top:180px;"> <i> NOT VALID WITHOUT DRY SEAL: </i></p>
                 </div>
                 <div class="col-md-12">
-                  <div class="p-3 text-right mr-3">
-                    {{-- @foreach ($official as $officials) --}}
-                    <h6 class="fw-bold mb-0 text-uppercase">
-                        {{-- {{$official->name}} --}}<u>{{$barangay_head->name}}</u>
-                        <p>
-                          {{-- {{$official->position}} --}}BARANGAY CAPTAIN
-                        </p>
-                      </h6>
+                  <div class="col-md-12">
+                    <div class="p-3 text-right mr-3">
+                      <p class="fw-bold mb-0 text-uppercase fs-6">
+                          <u>{{$barangay_head->name}}</u><br />
+                          <p class="fs-6">
+                           BARANGAY CAPTAIN
+                          </p>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="p-3 text-right mr-3">
+                      <p class="fw-bold mb-0 text-uppercase fs-6">
+                          <u> {{$barangay_secretary->name}}</u>
+                          <p class="fs-6">
+                            BARANGAY SECRETARY
+                          </p>
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-12 d-flex flex-wrap justify-content-end">
+                <div class="col-md-6 d-flex flex-wrap justify-content">
                   <div class="p-3 text-center">
                     <div class="border mb-3" style="height:150px;width:290px">
                       <p class="mt-5 mb-0 pt-5">Right Thumb Mark</p>
                     </div>
-                    <h6 class="fw-bold mb-0">_______________________</h6>
+                    <p class="fw-bold mb-0">_______________________</h6>
                     <p>Tax Payer's Signature</p>
                   </div>
                 </div>

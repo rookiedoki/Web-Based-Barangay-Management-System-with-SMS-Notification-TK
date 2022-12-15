@@ -40,7 +40,7 @@
           <th>Type of Document</th>
           <th>Date</th>
           <th>Actions</th>
-        </tr> 
+        </tr>
       </thead>
       @foreach($clear as $clearance)
 
@@ -57,7 +57,7 @@
           <td width="20%">
             @if($clearance->status == 'pending')
             <a href="#editResidentsModal{{$clearance->id}}" class="edit" data-toggle="modal"><button class="btn"><i class="fas fa-eye fa-minimize"></i></button></a>
-            <a href="#editResidentsModal{{$clearance->id}}" class="edit" data-toggle="modal"><button class="btn"><i class="fa fa-envelope" aria-hidden="true"></i></button></a>
+            <a href="#messageModal{{$clearance->id}}" class="edit" data-toggle="modal"><button class="btn"><i class="fa fa-envelope" aria-hidden="true"></i></button></a>
             @elseif($clearance->status == 'approved')
             <a href="{{url('certificateOfClearance/barangayClearance',$clearance->id)}}">
               <span class="badge badge-success p-2">Approved</span>
@@ -132,6 +132,45 @@
         </script> --}}
         </div>
 
+        {{-- Message Modal --}}
+        <div id="messageModal{{$clearance->id}}" class="modal fade">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="barangayClearance">Sent a Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div>
+                  <form method="post" action="messages/custom">
+                    @csrf
+                    <div class="form-group">
+                      <label>Phone Number</label>
+                      <input type="tel" class="form-control" name="phone_number" value="{{$clearance->phone_number}}">
+                  </div>
+                    {{-- <div class="form-group">
+                        <label>Select users to notify</label>
+                        <select name="users[]" multiple class="form-control">
+                            @foreach ($users as $user)
+                            <option>{{$user->phone_number}}</option>
+                            @endforeach
+                        </select>
+                    </div> --}}
+                    <div class="form-group">
+                        <label>Notification Message</label>
+                        <textarea name="body" class="form-control" rows="3"></textarea>
+                    </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Send Notification</button>
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         @endforeach
       </tbody>
 

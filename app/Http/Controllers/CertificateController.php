@@ -26,8 +26,9 @@ class CertificateController extends Controller
     } else if ($certificate->status == 'declined') {
       return redirect()->back()->with('success', 'Request is already declined');
     }
+
     $cer =  $certificate->admin_resident;
-    $resident = AdminResidents::find($id);
+    // $resident = AdminResidents::find($id);
     $barangay_head = barangayOfficial::where('position','Barangay Captain')->first();
     $barangay_secretary = barangayOfficial::where('position','Barangay Secretary')->first();
     return view('admin.requestsCertificates.barangayClearance', ['cer' => $cer,'barangay_secretary'=>$barangay_secretary,'barangay_head'=>$barangay_head]);
@@ -105,9 +106,9 @@ class CertificateController extends Controller
       ->where('status', $status)
       ->when($request->search, function ($query) use ($request) {
         return $query->where('fullname', 'like', '%' . $request->search . '%');
-      })->orderBy('id','ASC')->get();
+      })->orderBy('id','DESC')->get();
 
-
+    // $clear = AdminResidents::find($id);
       return view('admin.requestsCertificates.certificateOfClearance', ['clear' => $clear]);
 
   }

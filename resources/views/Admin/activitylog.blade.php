@@ -56,19 +56,21 @@
         <table class="table table-borderless table-hover">
           <thead>
             <tr>
-              <th>User ID</th>
-              <th>Action</th>
-              <th>Table</th>
-              <th>Date</th>
+              {{-- <th>User ID</th> --}}
+              <th class="text-uppercase fw-bold">Action</th>
+              <th class="text-uppercase fw-bold">Table</th>
+              <th class="text-uppercase fw-bold">Date</th>
+              <th class="text-uppercase fw-bold">Time</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($logs as $log)
             <tr>
-              <td class="show">{{ $log->user_id }}</td>
-              <td class="show">{{ $log->action }}</td>
-              <td class="show">{{ $log->table_name }}</td>
-              <td class="show text-sm"><small>{{\Carbon\Carbon::parse($log->created_at)->diffForHumans() }}</small></td>
+              {{-- <td class="show">{{ $log->user_id }}</td> --}}
+              <td class="show" width="50%">{{ $log->action }}</td>
+              <td class="show" width="10%">{{ $log->table_name }}</td>
+              <td class="show text-sm" width="30%"><small>{{ Carbon\Carbon::parse($log->created_at)->format('F d, Y (l)') }}</small></td>
+              <td class="show text-sm" width="30%"><small>{{\Carbon\Carbon::parse($log->created_at)->diffForHumans() }}</small></td>
             </tr>
             @endforeach
           </tbody>

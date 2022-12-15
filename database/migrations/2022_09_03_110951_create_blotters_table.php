@@ -23,7 +23,8 @@ return new class extends Migration
       $table->string('date');
       $table->string('time');
       $table->longText('details');
-      $table->string('proof')->nullable();;
+      $table->string('proof')->nullable();
+      $table->string('phone_number')->nullable();
       $table->enum('estado', ['pending', 'approved', 'declined'])->default('pending');
       $table->softDeletes();
       $table->timestamps();
