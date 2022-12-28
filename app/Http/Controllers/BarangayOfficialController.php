@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\SettingsController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\barangayOfficial;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\BarangayOfficialController;
 
 class BarangayOfficialController extends Controller
@@ -23,7 +24,7 @@ class BarangayOfficialController extends Controller
 
        //Barangay Official Storing Data
        public function storeOfficial(Request $request){
-
+        // dd($request->all());
         $formFields = $request->validate([
             'name' =>'required',
             'age' =>['required','numeric'],
@@ -31,16 +32,39 @@ class BarangayOfficialController extends Controller
             'gender' =>'required',
             'position' =>'required',
             'phone_number' => ['required','numeric'],
-            'email' =>'required',
+            'email' =>'',
             'official_image' => 'required',
+            'status'=>'',
+            'usertype'=>'',
+            'username'=>'required',
+            'password' =>['required','confirmed'],
+           
+        ]);
+        
+    $pass = bcrypt($request->password);
 
+    if($request->hasFile('official_image')){
+        $image = $request->file('official_image')->store('images', 'public');
+    }
+            $user = new User();
+            $user->username = $request->username;
+            $user->password = $pass;
+            $user->userType = $request->userType;
+            $user->status = $request->status;
+            $user->save();
+    
+            $user->admin()->update([
+            'name' => $request->name,
+            'age' => $request->age,
+            'birthdate' => $request->birthdate,
+            'gender' => $request->gender,
+            'position' => $request->position,
+            'phone_number' => $request->phone_number,
+            'email' => $request->email,
+            'official_image' => $image,
         ]);
 
-        if($request->hasFile('official_image')){
-            $formFields['official_image'] = $request->file('official_image')->store('images', 'public');
-        }
-        $official = barangayOfficial::create($formFields);
-        return redirect('/listBrgyOfficial')->with('message', 'Barangay Official Created Successfuly');
+    return redirect('/listBrgyOfficial')->with('message', 'Barangay Officials Profile Created Successfully'); 
 
 }
 
@@ -56,27 +80,35 @@ class BarangayOfficialController extends Controller
  }
 
 
-  //Update Barangay Officialss
-  public function updateOfficial(Request $request, barangayOfficial $official){
-
+ //Update Barangay Officialss
+ public function updateOfficial(Request $request, barangayOfficial $official){
+    // dd($request->all());
     $formFields = $request->validate([
         'name' =>'required',
-        'age' =>['required','numeric'],
+        'age' =>'required',
         'birthdate' =>'required',
         'gender' =>'required',
         'position' =>'required',
-        'phone_number' => ['required','numeric'],
-        'email' =>['required', Rule::unique('users','email')]
-
+        'phone_number' => 'required',
+        'email' =>'',
+        'official_image' => '',
+        'status'=>'',
+        'usertype'=>'',
+        'username'=>'',
+        'password'=>'',
     ]);
+
+    $pass = bcrypt($request->password);
     if($request->hasFile('official_image')){
         $formFields['official_image'] = $request->file('official_image')->store('images', 'public');
     }
-    $official->update($formFields);
 
-    return back()->with('message', 'Update Successful');
+    $official->update($formFields);
+    
+    return back()->with('message', 'Barangay Officials Profile Created Successfully');
 
 }
+
 
  //Login Page
  public function login(){

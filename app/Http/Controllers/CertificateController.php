@@ -32,8 +32,12 @@ class CertificateController extends Controller
     $barangay_head = barangayOfficial::where('position','Barangay Captain')->first();
     $barangay_secretary = barangayOfficial::where('position','Barangay Secretary')->first();
     return view('admin.requestsCertificates.barangayClearance', ['cer' => $cer,'barangay_secretary'=>$barangay_secretary,'barangay_head'=>$barangay_head]);
+  }
 
-
+  public function barangayClearancemessage($id)
+  {
+    $message = AdminResidents::find($id);
+    return view('admin.requestsCertificates.certificateOfClearance', ['message' => $message,]);
   }
 
   public function barangayResidency($id)

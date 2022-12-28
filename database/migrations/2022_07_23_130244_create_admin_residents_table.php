@@ -30,7 +30,8 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->string('voter_status')->nullable();
             $table->string('citizenship')->nullable();
-            $table->string('email');
+            $table->string('email')->nullable();
+            $table->string('username');
             $table->string('phone_number')->nullable();
             $table->string('occupation')->nullable();
             $table->string('work_status')->nullable();

@@ -16,6 +16,10 @@
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     @foreach($setting as $settings)
     <title>{{$settings->barangay_name}}</title>
     @endforeach
@@ -39,7 +43,7 @@
     <!-- App CSS -->
     <link rel="stylesheet" href="{{url('assets/css/app-light.css')}}" id="lightTheme" disabled>
     <link rel="stylesheet" href="{{url('assets/css/app-dark.css')}}" id="darkTheme">
-    <script src="{{url('assets/js/jquery.min.js')}}"></script>
+    {{-- <script src="{{url('assets/js/jquery.min.js')}}"></script> --}}
     <script src="{{url('assets/js/popper.min.js')}}"></script>
     <script src="{{url('assets/js/moment.min.js')}}"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -79,14 +83,14 @@
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           <img src="{{auth()->user()->adminResidents->resident_image ? asset ('storage/' .auth()->user()->adminResidents->resident_image ) : asset('/storage/no/-image.png')}}" alt=""  class="imagePrevieww">
+              <img src="{{auth()->user()->admin->official_image ? asset ('storage/' .auth()->user()->admin->official_image ) : asset('/storage/no/-image.png')}}" alt=""   class="imagePrevieww">
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
 
-              <a class="dropdown-item" href="#">Profile</a>
+              {{-- <a class="dropdown-item" href="#">Profile</a>
               <a class="dropdown-item" href="#">Settings</a>
-              <a class="dropdown-item" href="#">Activities</a>
+              <a class="dropdown-item" href="#">Activities</a> --}}
               <form class="inline" action="/logout" method="POST">
                 @csrf
               <button class="dropdown-item" type="submit">Logout</button>

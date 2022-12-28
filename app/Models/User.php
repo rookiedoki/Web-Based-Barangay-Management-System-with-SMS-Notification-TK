@@ -20,9 +20,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'email',   
+        'username',   
         'password',
         'userType',
+        'status',
     ];
     protected static function boot(){
         parent::boot();
@@ -30,16 +31,18 @@ class User extends Authenticatable
         static::created(function ($user){
             if($user->userType == 0){
                 $user->admin()->create([
-                    'email' => $user->email,
+                    'username' => $user->username,
                     'password' => $user->password,
-                    'userType' => $user->userType
+                    'userType' => $user->userType,
+                    'status' => $user->status
                 ]);
             }
             if($user->userType == 1){
                 $user->adminResidents()->create([
-                    'email' => $user->email,
+                    'username' => $user->username,
                     'password' => $user->password,
-                    'userType' => $user->userType
+                    'userType' => $user->userType,
+                    'status' => $user->status
                 ]);
             }
            
@@ -49,7 +52,7 @@ class User extends Authenticatable
     public function admin()
     {
         if($this->userType == 0){
-            return $this->hasOne(Admin::class);
+            return $this->hasOne(barangayOfficial::class);
         }
         if($this->userType == 1){
             return $this->hasOne(AdminResidents::class);
@@ -58,7 +61,7 @@ class User extends Authenticatable
     public function adminResidents()
     {
         if($this->userType == 0){
-            return $this->hasOne(Admin::class);
+            return $this->hasOne(barangayOfficial::class);
         }
         if($this->userType == 1){
             return $this->hasOne(AdminResidents::class);

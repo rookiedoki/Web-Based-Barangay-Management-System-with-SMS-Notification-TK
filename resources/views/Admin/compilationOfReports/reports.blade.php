@@ -181,6 +181,7 @@
                 @endif
               </td>
             </tr>
+
             <!---------------------------------------- Delete Residents Modal HTML -------------------------------------->
             <div id="deleteFile{{$file->id}}" class="modal fade">
               <div class="modal-dialog">
@@ -214,7 +215,7 @@
           </tbody>
         </table>
         {{-- <div class="clearfix">
-            {{$files->links()}}
+            {{$file->links()}}
         </div> --}}
         {{-- --}}
       </div>

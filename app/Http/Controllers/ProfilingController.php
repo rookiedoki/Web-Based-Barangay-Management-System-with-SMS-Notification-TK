@@ -114,8 +114,8 @@ public function searchHousehold(Request $request){
       
           }
 
-    //User Vaccination Form and Storing Data
- public function storeVaccination(Request $request){
+  //User Vaccination Partial Form and Storing Data
+ public function storeVaccinationPartial(Request $request){
   // dd($request->all());  
  $request->validate([
   'name' =>'required',
@@ -126,8 +126,40 @@ public function searchHousehold(Request $request){
   'dose' =>'required',
   'date_first' =>'required', 
   'vaccine_image' => 'required', 
-  'date_second' =>'', 
-  'booster_date' =>'', 
+  'status' => 'required',
+  ]);   
+
+  if($request->hasFile('vaccine_image')){
+    $image1= $request->file('vaccine_image')->store('images', 'public');
+  }
+      $vaccinated = new Vaccine;
+      $vaccinated->name=$request->name;
+      $vaccinated->age=$request->age;
+      $vaccinated->birthdate=$request->birthdate;
+      $vaccinated->vaccine_type=$request->vaccine_type;
+      $vaccinated->address=$request->address;
+      $vaccinated->dose=$request->dose;
+      $vaccinated->date_first=$request->date_first;
+      $vaccinated->status=$request->status;
+      $vaccinated->vaccine_image=$image1;
+      // dd($vaccinated);
+      $vaccinated->save();
+
+  return back()->with('message', 'Profiling Complete');
+}
+
+ //User Vaccination Fully Vaccinated Form and Storing Data
+ public function storeVaccinationFully(Request $request){
+  // dd($request->all());  
+ $request->validate([
+  'name' =>'required',
+  'age' =>'required',
+  'birthdate' =>'required',
+  'vaccine_type' =>'required',
+  'address' =>'required',
+  'dose' =>'required',
+  'date_first' =>'required', 
+  'date_second' =>'required', 
   'vaccine_image' => 'required', 
   'status' => 'required',
   ]);   
@@ -146,21 +178,84 @@ public function searchHousehold(Request $request){
       $vaccinated->dose=$request->dose;
       $vaccinated->date_first=$request->date_first;
       $vaccinated->date_second=$request->date_second;
-      $vaccinated->booster_date=$request->booster_date;
       $vaccinated->status=$request->status;
       $vaccinated->vaccine_image=$image1;
+      // dd($vaccinated);
+      $vaccinated->save();
+
+      
+  return back()->with('message', 'Profiling Complete');
+}
+
+ //User Vaccination with Booster Form and Storing Data
+ public function storeVaccinationBooster(Request $request){
+  // dd($request->all());  
+ $request->validate([
+  'name' =>'required',
+  'age' =>'required',
+  'birthdate' =>'required',
+  'vaccine_type' =>'required',
+  'address' =>'required',
+  'dose' =>'required',
+  'date_first' =>'required', 
+  'date_second' =>'required', 
+  'first_booster' =>'required', 
+  'second_booster' =>'required', 
+  'first_booster_date' =>'required', 
+  'second_booster_date' =>'required', 
+  'vaccine_image' => 'required', 
+  'booster_image' => 'required', 
+  'status' => 'required',
+  ]);   
+
+    
+  if($request->hasFile('vaccine_image')){
+    $image1= $request->file('vaccine_image')->store('images', 'public');
+  }
+  
+  if($request->hasFile('booster_image')){
+    $image2= $request->file('booster_image')->store('images', 'public');
+  }
+
+      $vaccinated = new Vaccine;
+      $vaccinated->name=$request->name;
+      $vaccinated->age=$request->age;
+      $vaccinated->birthdate=$request->birthdate;
+      $vaccinated->vaccine_type=$request->vaccine_type;
+      $vaccinated->address=$request->address;
+      $vaccinated->dose=$request->dose;
+      $vaccinated->date_first=$request->date_first;
+      $vaccinated->date_second=$request->date_second;
+      $vaccinated->first_booster=$request->first_booster;
+      $vaccinated->second_booster=$request->second_booster;
+      $vaccinated->first_booster_date=$request->first_booster_date;
+      $vaccinated->second_booster_date=$request->second_booster_date;
+      $vaccinated->status=$request->status;
+      $vaccinated->vaccine_image=$image1;
+      $vaccinated->booster_image=$image2;
       // dd($vaccinated);
       $vaccinated->save();
 
   return back()->with('message', 'Profiling Complete');
 }
       
-  //Admin List of Residence Vaccinted
-   public function listVaccinated(){
-    $vacc = Vaccine::all()->where('status', '=', '1');
+  //Admin List of Residence Partially Vaccinted
+   public function listPartialVaccinated(){
+    $vacc = Vaccine::all()->where('status', '=', '1')->where('dose', '=', 'Partially Vaccinated');
     return view('Admin.Profiling.Vaccination.listVaccinated',['vacc'=>$vacc]);
 }
 
+  //Admin List of Residence Fully Vaccinted
+  public function listFullyVaccinated(){
+    $vacc = Vaccine::all()->where('status', '=', '1')->where('dose', '=', 'Fully Vaccinated');
+    return view('Admin.Profiling.Vaccination.listFullyVaccinated',['vacc'=>$vacc]);
+}
+
+  //Admin List of Residence Booster Vaccinted
+  public function listBoosterVaccinated(){
+    $vacc = Vaccine::all()->where('status', '=', '1')->where('dose', '=', 'With Booster');
+    return view('Admin.Profiling.Vaccination.listBoosterVaccinated',['vacc'=>$vacc]);
+}
 //List of Profiling Vaccination
 public function vaccProfiling(){
   $vacc = Vaccine::all()->where('status', '=', '0');
@@ -301,10 +396,15 @@ public function listPWD(){
       'EDC' => 'required' 
   ]);
 
-// dd($formFields);
-$pregnant = Pregnant::create($formFields);
+  if(auth()->user()->adminResidents->gender =='Male'){
+    return back()->with('error', 'You are not applicable to fill this form');
+  }
+  if(auth()->user()->adminResidents->gender =='Female'){
+    // dd($formFields);
+    $pregnant = Pregnant::create($formFields);
+    return back()->with('message', 'Profiling Complete');
+  }
 
-return back()->with('message', 'Profiling Complete');
 }
 
 //Admin List of PWDs

@@ -88,8 +88,8 @@
             </div>
 
           <div class="form-group">
-              <input type="text" class="form-control item" name="email" id="email" placeholder="Email">
-              @Error('email')
+              <input type="text" class="form-control item" name="username" id="username" placeholder="Username">
+              @Error('username')
               <p class="text-danger text-md mt-1">{{$message}}</p>
              @enderror
           </div>

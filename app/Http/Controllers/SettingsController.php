@@ -66,8 +66,9 @@ public function updateSettings(Request $request, settings $setting){
 
 }
 
-public function freq_asked(){
 
+public function freq_asked(){
+    
     $freq_asked = FreqAsked::all();
 
     return view('admin.freq_asked',['freq_asked'=>$freq_asked]);
@@ -75,7 +76,7 @@ public function freq_asked(){
 
 // Edit Frequently Aked
 public function edit_freq_asked_title(){
-
+    
     $freq_asked_title = FreqAskedTitle::all();
     $freq_asked = FreqAsked::all();
     return view('admin.freq_asked',['freq_asked_title'=>$freq_asked_title,'freq_asked'=>$freq_asked]);
@@ -85,22 +86,45 @@ public function edit_freq_asked_title(){
   public function store_freq_asked(Request $request){
         // dd($request->all());
     $formFields = $request->validate([
-        'question' =>'',
-        'answer' =>'',
+        'question' =>'required',
+        'answer' =>'required',    
     ]);
 
     $freq_asked = FreqAsked::create($formFields);
     return back()->with('message', 'Frequently Asked Created Successfuly');
 }
 
-    //Update Frequently Asked Title
-    public function update_freq_asked(Request $request, FreqAskedTitle $id){
-    dd($request->all);
+    //Update Frequently Asked 
+    public function update_freq_asked(Request $request, FreqAsked $id){
+    // dd($request->all);
         $formFields = $request->validate([
-            'frq_asked_title' =>'required',
+            'question' =>'required',
+            'answer' =>'required',
         ]);
-        $freq_asked_title->update($formFields);
-        return back()->with('message', 'Announcement Updated Successfuly');
+        $id->update($formFields);
+        return back()->with('message', 'Frequently Asked Updated Successfuly');
+}
+
+    //Update Frequently Asked Title
+    public function update_freq_asked_title(Request $request, FreqAskedTitle $id){
+        // dd($request->all);
+            $formFields = $request->validate([
+                'frq_asked_title' =>'required',
+
+            ]);
+            $id->update($formFields);
+            return back()->with('message', 'Frequently Asked Title Updated Successfuly');
+    }
+
+//Delete Frequently Asked
+public function delete_freq_asked($id)
+{
+    $freq_asked=FreqAsked::find($id);
+
+    $freq_asked->delete();
+
+    return back()->with('message', 'Frequently Asked Deleted');
+
 }
 
 

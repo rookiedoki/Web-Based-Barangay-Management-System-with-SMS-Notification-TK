@@ -1,5 +1,4 @@
 @extends('layout.dashboard-layout')
-
 @section('content')
 <h1>Manage Admins</h1>  
 
@@ -14,7 +13,7 @@
               <div class="form-row">
                 <div class="form-group col-auto mr-auto">
 
-                  <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addAdminsModal"><i class="fas fa-plus" ></i> <span>Add New Admin</span></a>
+                  <a href="/listOfficials" class="btn btn-success" ><i class="fas fa-plus" ></i> <span>Add New Admin</span></a>
               
                 </div>
                 <div action="/residents" class="form-group col-auto">
@@ -30,12 +29,12 @@
             <thead>
               <tr>
                 
-                <th style="width:12%">No</th>
-                <th style="width:12%">Image</th>
-                <th style="width:15%">Name</th>
+                <th style="width:5%">No</th>
+                <th style="width:7%">Image</th>
+                <th style="width:17%">Name</th>
                 <th style="width:18%">Email</th>
                 <th style="width:18%">Position</th>
-                <th style="width:12%"> Actions  </th>
+                <th style="width:10%"> Actions  </th>
               </tr>
             </thead>
 
@@ -43,8 +42,8 @@
             <tbody>
               <tr>
             <th scope="row">{{$loop->iteration }}</th>
-            <td> <img class="imagePreview" src="{{$admin->admin_image ? asset ('storage/' .$admin->admin_image) : asset('/storage/no/-image.png')}}" alt=""  /></td>
-               <td>{{$admin->first_name}} {{$admin->last_name}}</td>
+            <td> <img class="imagePreview" src="{{$admin->official_image ? asset ('storage/' .$admin->official_image) : asset('/storage/no/-image.png')}}" alt=""  /></td>
+               <td>{{ $admin->name }}</td>
                 <td>{{$admin->email}}</td>
                 <td>{{$admin->position}}</td>
                 <td>
@@ -55,12 +54,13 @@
               
       
                 <!---------------------------------------- Delete Residents Modal HTML -------------------------------------->
-                {{-- <div id="deleteAnnouncementModal{{$announcements->id}}" class="modal fade">
+                <div id="deleteAnnouncementModal{{$admin->id}}" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form>
+                            <form method="POST"  action="{{url('deleteAdmin',$admin->id)}}">
+                                @csrf
                                 <div class="modal-header">						
-                                    <h4 class="modal-title">Delete Residents</h4>
+                                    <h4 class="modal-title">Delete Admin</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 </div>
             
@@ -71,14 +71,14 @@
                                 </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                    <input type="submit" href="{{url('deleteResidents', $announcements->id)}}" class="btn btn-danger" value="Delete">
-                                  <a class="btn btn-danger" href="{{url('deleteAnnouncements',$announcements->id)}}">Delete</a>
+                                    <input type="submit" class="btn btn-danger" value="Delete">
+                                  {{-- <a class="btn btn-danger" href="{{url('deleteAnnouncements',$announcements->id)}}">Delete</a> --}}
                                 </div>
             
                             </form>
                         </div>
                     </div>
-                </div>   --}}
+                </div>  
 
 
 
@@ -93,14 +93,14 @@
       </div>
     
    {{-- -----------------------------------Add Admins-------------------------------------- --}}
-     
+{{--      
    <div id="addAdminsModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <form action="/addAdmin" method="POST" enctype="multipart/form-data" id="image-upload-preview">
                     @csrf
- 
+
                     <div class="modal-header">						
                         <h4 class="modal-title">Add Admins</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -213,9 +213,51 @@
           
 
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <input type="submit" class="btn btn-success" value="Add">
-                    </div>
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"> --}}
+                        {{-- <input type="submit" class="btn btn-success" value="Add"> --}}
+                        {{-- <a href="#" class="btn btn-success" data-toggle="modal" data-target="#submit"> <span>Add</span></a>
+                    </div> --}}
+
+{{-- -------------------Modal Verificaton------------------------------------ --}}
+                    {{-- <div id="submit" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="POST">
+                                    @csrf
+                                    <div class="modal-header">						
+                                        <h4 class="modal-title">User Verification</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                
+                
+                                    <div class="modal-body">					
+                                        <p>Please Enter Your Password to Confirm</p>
+                                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="row register-form">
+                                        <div class="col-sm-12">
+                                            <div class="modal-body">					
+                                                <div class="form-group">
+                                                    <label >Password</label>
+                                                    <input type="password" class="form-control" name="verify" value="{{old('password')}}" required autocomplete="password">
+                                                
+                                                    @Error('password')
+                                                        <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                                                    @enderror
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <button type="submit" class="btn btn-primary btn-sm" >Add</button></a>
+                                    </div>
+                
+                                </form>
+                            </div>
+                        </div>
+                    </div> --}}
                     
                 </form>
                 

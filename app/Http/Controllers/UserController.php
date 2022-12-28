@@ -8,12 +8,14 @@ use App\Models\Admin;
 use App\Models\AdminLog;
 use Illuminate\Http\Request;
 use App\Models\AdminResidents;
+use App\Rules\MatchOldPassword;
 use Illuminate\Validation\Rule;
+use App\Models\barangayOfficial;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\ResidentsRegistration;
 use App\Http\Controllers\Helper\ActivityLog;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use App\Models\ActivityLog as ModelsActivityLog;
 
 class UserController extends Controller
@@ -37,6 +39,10 @@ class UserController extends Controller
         return view('user.editProfile',['profile'=>$profile]);
     }
 
+     //View list of Officials to manage admin
+ public function listOfficials(){
+    return view('Admin.Manage_Admin.listOfficials');
+}
 
     //Profile Update
     public function updateProfile(Request $request ){
@@ -102,7 +108,6 @@ class UserController extends Controller
 
      //Register Admin Residents Storing Data
      public function registerStore(Request $request){
-
         $this->validate($request,[
             'first_name' =>'required',
             'middle_name' =>'required',
@@ -110,31 +115,31 @@ class UserController extends Controller
             'nickname' =>'required',
             'place_of_birth' =>'required',
             'birthdate' => 'required',
-            'age' =>['required','numeric','min:1', 'max:120'],
+            'age' =>['required','numeric', 'max:120'],
             'civil_status' => 'required',
             'street' => 'required',
             'house_no' => ['required','numeric'],
-            'gender' => 'required',
+            'gender' => 'required', 
             'voter_status' => 'required',
             'citizenship' => 'required',
-            'email' => ['required', 'email', Rule::unique('users','email')],
+            'email' => ['required', 'email'],
+            'username' => ['required', Rule::unique('users','username')],
             'phone_number' => ['required','numeric','digits:11'],
             'occupation' =>'required',
             'work_status' =>'required',
             'resident_image' =>['required','image'],
             'id_image' =>['required','image'],
-            'password' =>'required',
+            'password' =>['required','confirmed'],
             'userType' =>'required',
             'status' =>'required',
-
-
+                      
         ]);
         $pass = bcrypt($request->password);
 
         // if($request->hasFile('profile_image','&&', 'image_id-birth')){
         //     $formFields['profile_image'] = $request->file('profile_image')->store('images', 'public');
         //     $formFields['image_id_birth'] = $request->file('image_id_birth')->store('images', 'public');
-        // }
+        // }   
         if($request->hasFile('resident_image')){
             $image1= $request->file('resident_image')->store('images', 'public');
         }
@@ -143,9 +148,10 @@ class UserController extends Controller
         }
 
         $user = new User();
-        $user->email =$request -> email;
+        $user->username =$request -> username;
         $user->password = $pass;
         $user->userType =$request ->  userType;
+        $user->status =$request -> status;
         $user ->save();
 
         ActivityLog::log(
@@ -154,7 +160,7 @@ class UserController extends Controller
             $user->id,
           );
 
-        $user->adminResidents()->update([
+          $user->adminResidents()->update([
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
             'last_name' => $request->last_name,
@@ -172,8 +178,9 @@ class UserController extends Controller
             'occupation' => $request->occupation,
             'work_status' => $request->work_status,
             'resident_image' => $image1,
-            'id_image' => $image2,
-            'status' => $request->status,
+            'id_image' => $image2,   
+            'status' => $request->status,     
+            'email' => $request->email,
         ]);
 
         return back()->with('message', 'Registration Complete');
@@ -236,50 +243,36 @@ public function activityLog(Request $request)
 }
 
 public function manageAdmin(){
-    $ad = Admin::all()->where('userType','=','0');
+    $ad = barangayOfficial::all()->where('status','=','1');
     return view('Admin.Manage_Admin.manageAdmin', ['ad'=>$ad]);
 
 }
 
+ //Delete Admin 
+ public function deleteAdmin($id)
+ {
+    $status = 0;
+    barangayOfficial::where('id', $id)->update(['status' => $status]);
+  return back()->with('message', 'Admin Record Deleted');
+}
+
  //Add Admins Storing Data
- public function addAdmin(Request $request){
-
+ public function addAdmin(Request $request, $id){
     $this->validate($request,[
-        'first_name' =>'required',
-        'last_name' =>'required',
-        'position' =>'required',
-        'email' =>'required',
-        'password' =>'required',
-        'userType' =>'required',
-        'admin_image' =>'required',
+        'verify' =>['required', new MatchOldPassword],   
     ]);
 
-    $pass = bcrypt($request->password);
+    $verify=$request->input('verify');
+    $hashedPassword = Auth::user()->getAuthPassword();
+    if (Hash::check($verify, $hashedPassword)) { 
 
-    if($request->hasFile('admin_image')){
-        $image = $request->file('admin_image')->store('images', 'public');
+    $officials=barangayOfficial::find($id);
+    $status = 1;
+
+    barangayOfficial::where('id', $id)->update(['status' => $status]);
+
+  return redirect('/manageAdmin')->with('message', 'Admin Created Successfuly');
     }
-
-    $user = new User();
-    $user->email = $request->email;
-    $user->password = $pass;
-    $user->userType = $request->userType;
-    $user->type = $request->position;
-    $user->save();
-
-    $user->admin()->update([
-        'first_name' => $request->first_name,
-        'last_name' => $request->first_name,
-        'position' => $request->position,
-        'admin_image' => $image,
-       
-    ]);
-
-    // $admin->admin()->create($formFields);
-
-    return back()->with('message', 'Admin Created Successfuly');
-
-
 }
 
 
@@ -305,27 +298,27 @@ public function logout(Request $request) {
  return view('loginPage');
 }
 
-//Login
+//Login 
 public function userLogin(Request $request){
     $user = $request->validate([
-        'email' => ['required', 'email'],
+        'username' => 'required',
         'password' => 'required'
     ]);
+   
     if(auth()->attempt($user)) {
         $request->session()->regenerate();
     {
-        if(auth()->user()->userType =='0')
+        if(auth()->user()->userType =='0' && auth()->user()->status=='1')
         {
          return redirect('/dashboard')->with('message', 'You are now Logged In!');
         }
-        else if(auth()->user()->userType =='1' && auth()->user()->adminResidents->status=='1')
+        else if(auth()->user()->userType =='1' && auth()->user()->adminResidents->status=='1') 
         {
          return redirect('/home')->with('message', 'You are now Logged In!');
         }
-    }
+    }    
 }
-return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
+return back()->withErrors(['password' => 'Invalid Credentials'])->onlyInput('password');
 }
-
 
 }

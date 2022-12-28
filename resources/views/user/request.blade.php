@@ -157,7 +157,7 @@
                                                 <input type="text" class="form-control" name="last_name" value="" placeholder="example Cruz" required>
                                             </div>
                                         </div>
-                                        <div class="col-md-12"><h6>Select Payment Method<span>*</span></h6>
+                                        <div class="col-md-6"><h6>Select Payment Method<span>*</span></h6>
                                             <div class="form-group">
                                                 <select class="form-control" name="paymentMethod" id="paymentSelection" onchange="showReference();" required>
                                                     <option class="default" value="Payment Method">--Payment Method--</option>
@@ -166,6 +166,11 @@
                                                   </select>
                                             </div>
                                         </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group"><h6>Contact Number<span>*</span></h6>
+                                                    <input type="tel" class="form-control" name="contact_number" value="" placeholder="09123456789" required>
+                                                </div>
+                                            </div>
                                         @Error('paymentMethod')
                                         <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                                         @enderror

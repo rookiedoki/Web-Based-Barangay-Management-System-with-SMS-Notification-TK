@@ -17,8 +17,12 @@ class Vaccine extends Model
         'dose',
         'date_first',
         'date_second',
-        'booster_date',
+        'first_booster',
+        'second_booster',
+        'first_booster_date',
+        'second_booster_date',
         'vaccine_image',
+        'booster_image',
         'status',
     ];
 }

@@ -13,6 +13,7 @@ class RequestCertificate extends Model
     'fullname',
     'docType',
     'paymentMethod',
+    'contact_number',
     'referenceNumber',
     'purpose',
     'otherPurpose',

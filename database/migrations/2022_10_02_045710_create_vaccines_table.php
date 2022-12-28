@@ -23,8 +23,12 @@ return new class extends Migration
             $table->string('dose');
             $table->string('date_first');
             $table->string('date_second')->nullable();
-            $table->string('booster_date')->nullable();
+            $table->string('first_booster')->nullable();
+            $table->string('second_booster')->nullable();
+            $table->string('first_booster_date')->nullable();
+            $table->string('second_booster_date')->nullable();
             $table->string('vaccine_image')->nullable();
+            $table->string('booster_image')->nullable();
             $table->integer('status')->nullable();
             $table->timestamps();
         });

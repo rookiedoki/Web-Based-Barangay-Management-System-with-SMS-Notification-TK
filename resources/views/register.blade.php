@@ -13,6 +13,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
   body{
@@ -138,7 +142,7 @@
               </div>
 
               <div class="form-group col-sm-4">
-                <input type="date" class="form-control item" name="birthdate" id="birthdate" placeholder="Birthdate" value="{{old('birthdate')}}">
+                <input type="text" class="form-control item" name="birthdate" id="nu_datebirth" placeholder="Birthdate" value="{{old('birthdate')}}">
                 @Error('birthdate')
                 <p class="text-danger text-md mt-1">{{$message}}</p>
                @enderror
@@ -146,7 +150,7 @@
         </div>
         <div class="row mb-4">
               <div class="form-group col-sm-4">
-                  <input type="text" class="form-control item" name="age" id="age" placeholder="Age" value="{{old('age')}}">
+                  <input readonly type="text" class="form-control item" name="age" id="a_ge" placeholder="Age" value="{{old('age')}}">
                   @Error('age')
                   <p class="text-danger text-md mt-1">{{$message}}</p>
                  @enderror
@@ -154,23 +158,23 @@
             <div class="form-group col-sm-4">
                 <select class="form-control item" name="civil_status" value="{{old('civil_status')}}" required autocomplete="voter_status" value="{{old('nickname')}}">
                     <option value="">-Select Civil Status-</option>
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                    <option value="Widowed">Widowed</option>
-                    <option value="Divorced">Divorced</option>
-                    <option value="Separated">Separated</option>
-                    <option value="Annuled">Annuled</option>
-                    <option value="Live-In">Live-In</option>
+                    <option value="Single" @if (old('civil_status') == "Single") {{ 'selected' }} @endif>Single</option>
+                    <option value="Married" @if (old('civil_status') == "Married") {{ 'selected' }} @endif>Married</option>
+                    <option value="Widowed" @if (old('civil_status') == "Widowed") {{ 'selected' }} @endif>Widowed</option>
+                    <option value="Divorced" @if (old('civil_status') == "Divorced") {{ 'selected' }} @endif>Divorced</option>
+                    <option value="Separated" @if (old('civil_status') == "Separated") {{ 'selected' }} @endif>Separated</option>
+                    <option value="Annuled" @if (old('civil_status') == "Annuled") {{ 'selected' }} @endif>Annuled</option>
+                    <option value="Live-In" @if (old('civil_status') == "Live-In") {{ 'selected' }} @endif>Live-In</option>
                 </select>
                 @Error('civil_status')
                 <p class="text-danger text-md mt-1">{{$message}}</p>
                @enderror
             </div>
               <div class="form-group col-sm-4">
-                <select class="form-control item" name="gender" value="{{old('gender')}}" required autocomplete="gender" >
+                <select class="form-control item" name="gender" required autocomplete="gender" >
                     <option value="">-Select Gender-</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option value="Male"  @if (old('gender') == "Male") {{ 'selected' }} @endif >Male</option>
+                    <option value="Female"  @if (old('gender') == "Female") {{ 'selected' }} @endif>Female</option>
                 </select>
                 @Error('gender')
                   <p class="text-danger text-md mt-1">{{$message}}</p>
@@ -195,12 +199,12 @@
               <div class="form-group col-sm-3">
                 <select class="form-control item" name="voter_status" value="{{old('voter_status')}}" required autocomplete="voter_status" value="{{old('voter_status')}}">
                     <option value="">-Select Voter Status-</option>
-                    <option value="Voter">Voter</option>
-                    <option value="Non Voter">Non Voter</option>
+                    <option value="Voter" @if (old('voter_status') == "Voter") {{ 'selected' }} @endif>Voter</option>
+                    <option value="Non Voter" @if (old('voter_status') == "Non Voter") {{ 'selected' }} @endif>Non Voter</option>
                 </select>
                 @Error('voter_status')
                   <p class="text-danger text-md mt-1">{{$message}}</p>
-                 @enderror
+                @enderror
               </div>
 
               <div class="form-group col-sm-3">
@@ -213,12 +217,12 @@
 
             <div class="row mb-4">
               <div class="form-group col-sm-4">
-                <input type="text" class="form-control item" name="phone_number" id="phone_number" placeholder="Contact Number" value="{{old('contact_number')}}">
+                <input type="text" class="form-control item" name="phone_number" id="phone_number" placeholder="Contact Number" value="{{old('phone_number')}}">
                 @Error('phone_number')
                 <p class="text-danger text-md mt-1">{{$message}}</p>
                @enderror
           </div>
-          
+
             <div class="form-group col-sm-4">
                 <input type="text" class="form-control item" name="occupation" id="occupation" placeholder="Occupation" value="{{old('occupation')}}">
                 @Error('occupation')
@@ -228,10 +232,9 @@
               <div class="form-group col-sm-4">
                 <select class="form-control item" name="work_status" value="{{old('work_status')}}" required autocomplete="work_status" value="{{old('work_status')}}">
                     <option value="">-Select Work Status-</option>
-                    <option value="Employed">Employed</option>
-                    <option value="Unemployed">Unemployed</option>
-                    <option value="Self-Employed">Self Employed</option>
-                    <option value="N/A">N/A</option>
+                    <option value="Employed" @if (old('work_status') == "Employed") {{ 'selected' }} @endif>Employed</option>
+                    <option value="Unemployed" @if (old('work_status') == "Unemployed") {{ 'selected' }} @endif>Unemployed</option>
+                    <option value="Self-Employed" @if (old('work_status') == "Self-Employed") {{ 'selected' }} @endif>Self Employed</option>
                  </select>
                 @Error('work_status')
                   <p class="text-danger text-md mt-1">{{$message}}</p>
@@ -246,27 +249,41 @@
                 <p class="text-danger text-md mt-1">{{$message}}</p>
                @enderror
             </div>
+          <div class="form-group col-sm-6">
+              <input type="text" class="form-control item" name="username" id="username" placeholder="Username" value="{{old('username')}}">
+              @Error('username')
+              <p class="text-danger text-md mt-1">{{$message}}</p>
+             @enderror
+          </div>
               <div class="form-group col-sm-6">
                   <input type="password" class="form-control item" name="password" id="password" placeholder="Password">
                   @Error('password')
                   <p class="text-danger text-md mt-1">{{$message}}</p>
                  @enderror
               </div>
+              <div class="form-group col-sm-6">
+                <input type="password" class="form-control item" name="password_confirmation" id="password" placeholder="Confirm Password">
+                @Error('password_confirmation')
+                <p class="text-danger text-md mt-1">{{$message}}</p>
+               @enderror
+            </div>
           </div>
                 
           <hr class="my-4">
           <div class="row mb-4">
             <div class="col-md-6">
               <div class="form-group">
-                <label >Profile Image</label>
-                <input type="file" name="resident_image" >
+                <label >Profile Image</label><br>
+                <img id="prview"style="width: 150px; height:80px" />
+                <input type="file" name="resident_image" id="resident_image">
                 @Error('resident_image')
                 <p class="text-danger text-md mt-1">{{$message}}</p>
                @enderror
               </div>
               <div class="form-group">
-                <label >Valid ID Image</label>
-                <input type="file"  name="id_image" >
+                <label >Valid ID Image</label><br>
+                <img id="prvieww"style="width: 150px; height:80px" />
+                <input type="file"  name="id_image" id="id_image">
                 @Error('id_image')
                 <p class="text-danger text-md mt-1">{{$message}}</p>
                @enderror
@@ -294,9 +311,7 @@
         </form>
        
     </div>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
-    <script src="assets/js/script.js"></script>
+
 </body>
 </html>
 
@@ -321,5 +336,42 @@ $("document").ready(function()
       $("div.alert").remove();
     },3000);
 });
-
 </script>
+
+<script>
+ $(function() {
+    $("#nu_datebirth").datepicker({
+    onSelect: function(value, ui) {
+        var today = new Date(),
+            age = today.getFullYear() - ui.selectedYear;
+        $('#a_ge').val(age);
+    },
+       
+    dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,yearRange:"c-100:c+0"
+    });
+      
+});
+  </script>
+
+<script>
+  resident_image.onchange = evt => {
+    const [file] = resident_image.files
+    if (file) {
+      prview.style.visibility = 'visible';
+  
+      prview.src = URL.createObjectURL(file)
+    }
+  }
+</script>
+
+<script>
+  id_image.onchange = evt => {
+    const [file] = id_image.files
+    if (file) {
+      prvieww.style.visibility = 'visible';
+  
+      prvieww.src = URL.createObjectURL(file)
+    }
+  }
+</script>
+

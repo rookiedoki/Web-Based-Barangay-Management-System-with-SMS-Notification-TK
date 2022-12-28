@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class SMSMessages extends Model
 {
+    use HasFactory;
     protected $table= "smsmessages";
     protected $fillable = [
-        'phone_number'
+        'contact_number'
     ];
 }

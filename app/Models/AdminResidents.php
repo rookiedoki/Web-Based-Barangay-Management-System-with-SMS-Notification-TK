@@ -25,6 +25,7 @@ class AdminResidents extends Model
         'voter_status',
         'citizenship',
         'email',
+        'username',
         'phone_number',
         'occupation',
         'work_status',
@@ -32,6 +33,8 @@ class AdminResidents extends Model
         'password',
         'userType',
         'status',
+        
+        
     ];
 
     public function scopeFilter($query, array $filters){
@@ -42,7 +45,7 @@ class AdminResidents extends Model
                ->orWhere('last_name', 'like', '%' . request('search') . '%')
                ->orwhere('age', 'like', '%' . request('search') . '%');
             //    ->orWhere('work_status', 'like', '%' . request('search') . '%');
-
+               
         }
 
     }

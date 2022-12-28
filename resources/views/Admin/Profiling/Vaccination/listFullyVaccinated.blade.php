@@ -14,7 +14,7 @@
           
           <div class="dropdown show float-right">
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Partially Vaccinated
+              Fully Vaccinated
             </a>
           
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -67,11 +67,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <h2 class="pt-3 pb-1 text-center font-bold font-up deep-purple-text">LIST OF PARTIALLY VACCINATED</h2>
-                        {{-- <div class="input-group md-form form-sm form-2 pl-0" action="/searchSenior">
-                            <input class="form-control my-0 py-1 pl-3 purple-border" name="search" type="text" placeholder="Search Name" aria-label="Search">
-                            <span class="input-group-addon waves-effect purple lighten-2" id="basic-addon1"><a><i class="fa fa-search white-text" aria-hidden="true"></i></a></span>
-                        </div> --}}
+                        <h2 class="pt-3 pb-1 text-center font-bold font-up deep-purple-text">LIST OF FULLY VACCINATED</h2>
                     </div>
 
 
@@ -80,13 +76,14 @@
                         <!--Table head-->
                         <thead class="mdb-color darken-3">
                             <tr class="text-white">
-                                <th style="width: 10%">#</th>
-                                <th style="width: 18%">Name</th>
-                                <th style="width: 10%">Age</th>
-                                <th style="width: 17%">Birthdate</th>
-                                <th style="width: 17%">Name of Vaccine</th>
-                                <th style="width: 17%">First Dose Date</th>
-                                <th style="width: 20%">Status</th>
+                                <th style="width: 5%">#</th>
+                                <th style="width: 12%">Name</th>
+                                <th style="width: 5%">Age</th>
+                                <th style="width: 12%">Birthdate</th>
+                                <th style="width: 15%">Name of Vaccine</th>
+                                <th style="width: 10%">First Dose Date</th>
+                                <th style="width: 10%">Second Dose Date</th>
+                                <th style="width: 12%">Status</th>
                             </tr>
                         </thead>
                         <!--Table head-->
@@ -100,6 +97,7 @@
                                 <td>{{$vaccinated->birthdate}}</td>
                                 <td>{{$vaccinated->vaccine_type}}</td>
                                 <td>{{$vaccinated->date_first}}</td>
+                                <td>{{$vaccinated->date_second}}</td>
                                 <td>{{$vaccinated->dose}}</td>
                             </tr>
                         </tbody>

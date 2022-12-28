@@ -14,7 +14,7 @@
           
           <div class="dropdown show float-right">
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Partially Vaccinated
+              With Booster
             </a>
           
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -67,11 +67,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <h2 class="pt-3 pb-1 text-center font-bold font-up deep-purple-text">LIST OF PARTIALLY VACCINATED</h2>
-                        {{-- <div class="input-group md-form form-sm form-2 pl-0" action="/searchSenior">
-                            <input class="form-control my-0 py-1 pl-3 purple-border" name="search" type="text" placeholder="Search Name" aria-label="Search">
-                            <span class="input-group-addon waves-effect purple lighten-2" id="basic-addon1"><a><i class="fa fa-search white-text" aria-hidden="true"></i></a></span>
-                        </div> --}}
+                        <h2 class="pt-3 pb-1 text-center font-bold font-up deep-purple-text">LIST OF FULLY VACCINATED WITH BOOSTER</h2>
                     </div>
 
 
@@ -80,13 +76,17 @@
                         <!--Table head-->
                         <thead class="mdb-color darken-3">
                             <tr class="text-white">
-                                <th style="width: 10%">#</th>
-                                <th style="width: 18%">Name</th>
-                                <th style="width: 10%">Age</th>
-                                <th style="width: 17%">Birthdate</th>
-                                <th style="width: 17%">Name of Vaccine</th>
-                                <th style="width: 17%">First Dose Date</th>
-                                <th style="width: 20%">Status</th>
+                                <th style="font-size:13px">#</th>
+                                <th style="font-size:13px">Name</th>
+                                <th style="font-size:13px">Age</th>
+                                <th style="font-size:13px">Birthdate</th>
+                                <th style="font-size:13px">Vaccine</th>
+                                <th style="font-size:13px">First Dose Date</th>
+                                <th style="font-size:13px">Second Dose Date</th>
+                                <th style="font-size:13px">1st Booster Vaccine</th>
+                                <th style="font-size:13px">2nd Booster Vaccine</th>
+                                <th style="font-size:13px">1st Booster Vaccine</th>
+                                <th style="font-size:13px">Status</th>
                             </tr>
                         </thead>
                         <!--Table head-->
@@ -95,12 +95,16 @@
                         <tbody>
                             <tr>
                                 <th scope="row">{{$loop->iteration }}</th>
-                                <td>{{$vaccinated->name}}</td>
-                                <td>{{$vaccinated->age}}</td>
-                                <td>{{$vaccinated->birthdate}}</td>
-                                <td>{{$vaccinated->vaccine_type}}</td>
-                                <td>{{$vaccinated->date_first}}</td>
-                                <td>{{$vaccinated->dose}}</td>
+                                <td style="font-size:13px">{{$vaccinated->name}}</td>
+                                <td style="font-size:13px">{{$vaccinated->age}}</td>
+                                <td style="font-size:13px">{{$vaccinated->birthdate}}</td>
+                                <td style="font-size:13px">{{$vaccinated->vaccine_type}}</td>
+                                <td style="font-size:13px">{{$vaccinated->date_first}}</td>
+                                <td style="font-size:13px">{{$vaccinated->date_second}}</td>
+                                <td style="font-size:13px">{{$vaccinated->first_booster_date}}</td>
+                                <td style="font-size:13px">{{$vaccinated->second_booster_date}}</td>
+                                <td style="font-size:13px">{{$vaccinated->date_second}}</td>
+                                <td style="font-size:13px">{{$vaccinated->dose}}</td>
                             </tr>
                         </tbody>
                         @endforeach

@@ -136,7 +136,50 @@
 
                     </div>
                 </div>
-           
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div class="modal-body">
+                        <label>Username</label>
+                        <input type="text" class="form-control" name="username" value="{{old('username')}}" required autocomplete="username">
+                    </div>	
+                    
+                    @Error('username')
+                    <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                 @enderror
+
+                    </div>			
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div class="modal-body">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="password" value="{{old('password')}}" required autocomplete="password">
+                    </div>	
+                    
+                    @Error('password')
+                    <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                 @enderror
+
+                    </div>			
+                </div>
+                <div class="col-sm-12">
+                    <div class="modal-body">					
+                        <div class="form-group">
+                            <label >Confirm Password</label>
+                            <input type="password" class="form-control" name="password_confirmation"  required autocomplete="password_confirmation">
+                        
+                            @Error('password_confirmation')
+                                <p class="text-danger text-md mt-1">{{$message}}</p>
+                            @enderror
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" class="form-control" value="0" name="status" >
+                <input type="hidden" class="form-control" value="0" name="userType" >         
                 <div class="modal-footer">
                     <a class="btn btn-danger" href="/listBrgyOfficial">Back</a>
                     <input type="submit" class="btn btn-success" value="Add">

@@ -14,6 +14,7 @@ use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\AdminResidentsController;
 use App\Http\Controllers\BarangayOfficialController;
+use App\Http\Controllers\SMSController;
 use App\Http\Controllers\UserRegistrationController;
 
 /*
@@ -180,15 +181,20 @@ Route::get('/settings', [SettingsController::class, 'settings'])->middleware('au
 Route::put('/settings/{setting}', [SettingsController::class, 'updateSettings']);
 
 
+//Mange Admin to List of Officials 
+Route::get('/listOfficials', [UserController::class, 'listOfficials']);
+
 //Manage Admin
 Route::get('/manageAdmin', [UserController::class, 'manageAdmin']);
 
+//Delete Admin
+Route::post('/deleteAdmin/{id}', [UserController::class, 'deleteAdmin']);
+
 //Store Admin
-Route::post('/addAdmin', [UserController::class, 'addAdmin']);
+Route::post('/addAdmin/{id}', [UserController::class, 'addAdmin']);
 
 //Export PDF
 Route::get('/exportPDF', [ProfilingController::class, 'exportPDF']);
-
 //view frequuently asked
 Route::get('/freq_asked', [SettingsController::class, 'freq_asked'])->middleware('auth');
 
@@ -198,8 +204,14 @@ Route::post('/store_freq_asked', [SettingsController::class, 'store_freq_asked']
 //Edit frequently asked title
 Route::get('/freq_asked', [SettingsController::class, 'edit_freq_asked_title'])->middleware('auth');
 
-//Update frequently asked title
+//Update frequently asked
 Route::put('/update_freq_asked/{id}', [SettingsController::class, 'update_freq_asked']);
+
+//Update frequently asked title
+Route::put('/update_freq_asked_title/{id}', [SettingsController::class, 'update_freq_asked_title']);
+
+//Delete Data from barangay Official
+Route::get('/delete_freq_asked/{id}', [SettingsController::class, 'delete_freq_asked']);
 
 //Admin View Profiling Residence Vaccination
 Route::get('/viewVaccProfiling/{id}', [ProfilingController::class, 'viewVaccProfiling']);
@@ -207,12 +219,19 @@ Route::get('/viewVaccProfiling/{id}', [ProfilingController::class, 'viewVaccProf
 //Add to List Vaccinated
 Route::post('/addListVaccinated/{id}', [ProfilingController::class, 'addListVaccinated']);
 
-//Admin List of Residence Vaccinted
-Route::get('/listVaccinated', [ProfilingController::class, 'listVaccinated']);
+//Admin List of Residence Partially Vaccinted
+Route::get('/listVaccinated', [ProfilingController::class, 'listPartialVaccinated']);
+
+//Admin List of Residence Fully Vaccinted
+Route::get('/listFullyVaccinated', [ProfilingController::class, 'listFullyVaccinated']);
+
+//Admin List of Residence With Booster
+Route::get('/listBoosterVaccinated', [ProfilingController::class, 'listBoosterVaccinated']);
+
+
 
 //Profiling Residence Vaccination
 Route::get('/vaccProfiling', [ProfilingController::class, 'vaccProfiling']);
-
 
 //Profiling Senior Citizen
 Route::get('/seniorProfiling', [ProfilingController::class, 'seniorProfiling']);
@@ -267,6 +286,7 @@ Route::get('/certificateOfIndigency/barangayIndigency/{id}', [CertificateControl
 Route::get('/certificateOfClearance', [CertificateController::class, 'certificateOfClearance']);
 //Print Clearance
 Route::get('/certificateOfClearance/barangayClearance/{id}', [CertificateController::class, 'barangayClearance']);
+Route::get('/certificateOfClearanceMessage/barangayClearancemessage/{id}', [CertificateController::class, 'barangayClearancemessage']);
 
 // ----------------------------------BLOTTER CONTROLLER------------------------------------
 Route::get('/residentBlotter', [RequestController::class, 'residentBlotter']);
@@ -345,14 +365,17 @@ Route::get('/home', [HomeController::class, 'numResidents'])->middleware('auth')
 //User PWD Form and Storing Data
 Route::post('/storePWD', [ProfilingController::class, 'storePWD']);
 
-
 //User Senior Citizen Form and Storing Data
 Route::post('/storeSenior', [ProfilingController::class, 'storeSenior']);
 
+//User Vaccination Partially Form and Storing Data
+Route::post('/storeVaccinationPartial', [ProfilingController::class, 'storeVaccinationPartial']);
 
-//User Vaccination Form and Storing Data
-Route::post('/storeVaccination', [ProfilingController::class, 'storeVaccination']);
+//User Vaccination Partially Form and Storing Data
+Route::post('/storeVaccinationFully', [ProfilingController::class, 'storeVaccinationFully']);
 
+//User Vaccination Partially Form and Storing Data
+Route::post('/storeVaccinationBooster', [ProfilingController::class, 'storeVaccinationBooster']);
 
 ///User Vaccination Profiling
 Route::get('/userProfiling', [ProfilingController::class, 'userProfiling'])->middleware('auth');
@@ -360,7 +383,22 @@ Route::get('/userProfiling', [ProfilingController::class, 'userProfiling'])->mid
 //User PWDs Form and Storing Data
 Route::post('/storePregnant', [ProfilingController::class, 'storePregnant']);
 
+//User PWDs Form and Storing Data
+Route::get('/inquiries', [InquiriesController::class, 'inquiries']);
+
+//User PWDs Form and Storing Data
+Route::post('/addInquiries', [InquiriesController::class, 'addInquiries']);
+
+//Add Rersidents in Admin
+Route::get('/addResidents', [AdminResidentsController::class, 'addResidents']);
+
+//Edit Rersidents in Admin
+Route::get('/editResidents/{id}', [AdminResidentsController::class, 'editResidents']);
+
 //SMS
-Route::get('messages', [SMSController::class, 'show']);
-Route::post('messages', [SMSController::class, 'storePhoneNumber']);
-Route::post('messages/custom', [SMSController::class, 'sendCustomMessage']);
+// Route::get('messages', [SMSController::class, 'show']);
+// Route::post('messages/custom', [SMSController::class, 'sendCustomMessage']);
+Route::post('sendSMS', [SMSController::class, 'sendSMS']);
+Route::get('/sms', function (){
+    return view ('user.home');
+});

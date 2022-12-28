@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Http\Controllers\Helper\ActivityLog;
 use App\Models\User;
 use App\Models\Archive;
 use App\Models\ActivityLogs;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\AdminResidents;
+use App\Rules\MatchOldPassword;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Helper\ActivityLog;
 
 class AdminResidentsController extends Controller
 {
@@ -34,75 +35,99 @@ class AdminResidentsController extends Controller
             'resident' => AdminResidents::where('status', '=', '1')->latest()->filter(request(['search']))->paginate(4)
         ]);
     }
+
+         
+        //Show Admin Residents Form
+        public function addResidents(){
+          return view('Admin.Residents.addResidents');
+      
+          }
+  
+      //Show Edit Residents Form
+      public function editResidents($id){   
+          $residents = AdminResidents::find($id);
+          return view('Admin.Residents.editResidents', ['residents'=>$residents]);
+      }
+      
        //Admin Adding Residents Storing Data
        public function adminStore(Request $request){
+        // dd($request->all());
         $this->validate($request,[
-            'first_name' =>'required',
-            'middle_name' =>'required',
-            'last_name' =>'required',
-            'nickname' =>'required',
-            'place_of_birth' =>'required',
-            'birthdate' => 'required',
-            'age' =>['required','numeric','min:1', 'max:120'],
-            'civil_status' => 'required',
-            'street' => 'required',
-            'house_no' => ['required','numeric'],
-            'gender' => 'required',
-            'voter_status' => 'required',
-            'citizenship' => 'required',
-            'email' => ['required', 'email', Rule::unique('users','email')],
-            'phone_number' => ['required','numeric','digits:11'],
-            'occupation' =>'required',
-            'work_status' =>'required',
-            'password' =>'required',
-            'status' =>'required',
-            'resident_image' =>['required','image'],
+          'first_name' =>'required',
+          'middle_name' =>'required',
+          'last_name' =>'required',
+          'nickname' =>'required',
+          'place_of_birth' =>'required',
+          'birthdate' => 'required',
+          'age' =>['required','numeric', 'max:120'],
+          'civil_status' => 'required',
+          'street' => 'required',
+          'house_no' => ['required','numeric'],
+          'gender' => 'required', 
+          'voter_status' => 'required',
+          'citizenship' => 'required',
+          'email' => ['required', 'email'],
+          'username' => ['required', Rule::unique('users','username')],
+          'phone_number' => ['required','numeric','digits:11'],
+          'occupation' =>'required',
+          'work_status' =>'required',
+          'password' =>['required','confirmed'],
+          'status' =>'required',
+          'userType' =>'required',
+          'resident_image' =>['required','image'],
+          'verify' =>['required', new MatchOldPassword],
+         
+      ]);
+      $pass = bcrypt($request->password);
 
-        ]);
-        $pass = bcrypt($request->password);
+      if($request->hasFile('resident_image')){
+          $image= $request->file('resident_image')->store('images', 'public');
+      }
 
-        if($request->hasFile('resident_image')){
-            $image= $request->file('resident_image')->store('images', 'public');
-        }
+      $verify=$request->input('verify');
+      $hashedPassword = Auth::user()->getAuthPassword();
+  
+      if (Hash::check($verify, $hashedPassword)) {  
 
-        $user = new User();
-        $user->email =$request -> email;
-        $user->password = $pass;
-        $user->userType =$request ->  userType;
-        $user ->save();
+      $user = new User();
+      $user->username =$request -> username;
+      $user->password = $pass;
+      $user->userType =$request ->  userType;
+      $user->status =$request -> status;
+      $user ->save();
 
-        $user->adminResidents()->update([
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'nickname' => $request->nickname,
-            'place_of_birth' => $request->place_of_birth,
-            'birthdate' => $request->birthdate,
-            'age' => $request->age,
-            'civil_status' => $request->civil_status,
-            'street' => $request->street,
-            'house_no' => $request->house_no,
-            'gender' => $request->gender,
-            'voter_status' => $request->voter_status,
-            'citizenship' => $request->citizenship,
-            'phone_number' => $request->phone_number,
-            'occupation' => $request->occupation,
-            'work_status' => $request->work_status,
-            'resident_image' => $image,
-            'status' => $request->status,
-        ]);
+      $user->adminResidents()->update([
+          'first_name' => $request->first_name,
+          'middle_name' => $request->middle_name,
+          'last_name' => $request->last_name,
+          'nickname' => $request->nickname,
+          'place_of_birth' => $request->place_of_birth,
+          'birthdate' => $request->birthdate,
+          'age' => $request->age,
+          'civil_status' => $request->civil_status,
+          'street' => $request->street,
+          'house_no' => $request->house_no,
+          'gender' => $request->gender,
+          'voter_status' => $request->voter_status,
+          'citizenship' => $request->citizenship,
+          'phone_number' => $request->phone_number,
+          'occupation' => $request->occupation,
+          'work_status' => $request->work_status,
+          'resident_image' => $image,
+          'email' => $request->email,
 
-        $adminResidents = AdminResidents::create($pass);
+      ]);
 
-        ActivityLog::log(
-          ' added resident ' .
-            $adminResidents->first_name .
-            ' ' . $adminResidents->last_name,
-          'admin_residents',
-          $adminResidents->id
-        );
+        // ActivityLog::log(
+        //   ' added resident ' .
+        //     $adminResidents->first_name .
+        //     ' ' . $adminResidents->last_name,
+        //   'admin_residents',
+        //   $adminResidents->id
+        // );
 
         return redirect('/residents')->with('message', 'Residents Profile Created Successfuly');
+}
 }
 
     //Delete Residents
@@ -143,50 +168,35 @@ class AdminResidentsController extends Controller
 
       }
 
-
-
-
-    //Show Edit Residents Form
-    public function editResidents(AdminResidents $residents){
-
-
-        return view('Admin.Residents.residents', ['residents' => $residents]);
-
-    }
-
-
     //Update Residents Admin Form
     public function updateResidents(Request $request, AdminResidents $residents){
+      $formFields = $request->validate([
+        'first_name' =>'required',
+        'middle_name' =>'required',
+        'last_name' =>'required',
+        'nickname' =>'required',
+        'place_of_birth' =>'required',
+        'birthdate' => 'required',
+        'age' =>['required','numeric', 'max:120'],
+        'civil_status' => 'required',
+        'street' => 'required',
+        'house_no' => 'required',
+        'gender' => 'required', 
+        'voter_status' => 'required',
+        'citizenship' => 'required',
+        'email' => ['required', 'email'],
+        'phone_number' => ['required','numeric','digits:11'],
+        'occupation' =>'required',
+        'work_status' =>'required',
+        'resident_image' =>'image'
+    ]);
+    
+    if($request->hasFile('resident_image')){
+        $formFields['resident_image'] = $request->file('resident_image')->store('images', 'public');
+    }
 
-        $formFields = $request->validate([
-            'first_name' =>'required',
-            'middle_name' =>'required',
-            'last_name' =>'required',
-            'nickname' =>'required',
-            'place_of_birth' =>'required',
-            'birthdate' => 'required',
-            'age' =>['required','numeric'],
-            'civil_status' => 'required',
-            'street' => 'required',
-            'house_no' => 'required',
-            'gender' => 'required',
-            'voter_status' => 'required',
-            'citizenship' => 'required',
-            'email' => ['required', 'email'],
-            'phone_number' => ['required','numeric', 'min:11|max:13'],
-            'occupation' =>'required',
-            'work_status' =>'required',
-            'resident_image' =>'image'
-        ]);
-
-
-
-        if($request->hasFile('resident_image')){
-            $formFields['resident_image'] = $request->file('resident_image')->store('images', 'public');
-        }
-
-        $residents->update($formFields);
-
+    $residents->update($formFields);
+    
         ActivityLog::log(
           'updated resident ' .
             $residents->first_name .

@@ -169,9 +169,9 @@
            @enderror
     </div>
   <div class="form-group col-sm-6">
-    <label>Password</label>
-    <input readonly type="password"  name="password" class="form-control" value="{{$reg->password}}">
-    @Error('password')
+    <label>Username</label>
+    <input readonly type="text"  name="username" class="form-control" value="{{$reg->username}}">
+    @Error('username')
           <p class="text-red-500 text-xs mt-1">{{$message}}</p>
          @enderror
   </div>
@@ -202,8 +202,47 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Accept</button>
+        <a href="#" class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#submit"> <span>Accept</span></a>
+        {{-- <button href="#" class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#submit">Accept</button> --}}
         <p class="mt-5 mb-3 text-muted text-center">© 2020</p>
+
+                        {{-- -------------------Modal Verificaton------------------------------------ --}}
+                        <div id="submit" class="modal fade">
+                          <div class="modal-dialog">
+                              <div class="modal-content">
+                                      <div class="modal-header">						
+                                          <h4 class="modal-title">User Verification</h4>
+                                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                      </div>
+                  
+                  
+                                      <div class="modal-body">					
+                                          <p>Please Enter Your Password to Confirm</p>
+                                          <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                      </div>
+                                      <div class="row register-form">
+                                          <div class="col-sm-12">
+                                              <div class="modal-body">					
+                                                  <div class="form-group">
+                                                      <label >Password</label>
+                                                      <input type="password" class="form-control" name="verify" value="{{old('password')}}" required autocomplete="password">
+                                                  
+                                                      @Error('verify')
+                                                          <p class="text-danger text-md mt-1">{{$message}}</p>
+                                                      @enderror
+                                                  
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                          <button type="submit" class="btn btn-primary btn-sm" >Confirm</button></a>
+                                      </div>
+  
+                              </div>
+                          </div>
+                      </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
       </form>
     </div>
 {{-- -----------------------------------view image profile---------------------------- --}}
@@ -226,7 +265,7 @@
                       <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                   </div>
 
-              </form>
+                </form>
           </div>
       </div>
   </div>
@@ -255,6 +294,8 @@
         </div>
     </div>
 </div>
+
+
 </div>
 </div>
 </div>

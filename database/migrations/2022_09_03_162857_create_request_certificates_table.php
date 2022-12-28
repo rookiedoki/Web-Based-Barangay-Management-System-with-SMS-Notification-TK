@@ -19,6 +19,7 @@ return new class extends Migration
       $table->string('fullname');
       $table->string('doctype');
       $table->string('paymentMethod');
+      $table->string('contact_number');
       $table->string('referenceNumber')->nullable();
       $table->string('purpose');
       $table->string('otherPurpose')->nullable();

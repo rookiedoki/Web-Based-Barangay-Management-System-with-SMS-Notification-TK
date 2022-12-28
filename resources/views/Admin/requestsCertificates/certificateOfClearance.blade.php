@@ -67,12 +67,6 @@
             @endif
 
           </td>
-
-          {{-- <td>
-              <a href="{{url('certificate/barangayClearance',$certificate->id)}}"><button class="btn"><i class="fas fa-file fa-minimize"></i></button></a>
-          <a href="#deleteResidentsModal{{$certificate->id}}" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-          {{-- <a href="#barangayClearance{{$req->id}}" data-toggle="modal" ><i class="material-icons" data-toggle="tooltip">&#xE254;</i></a> --}}
-          {{-- </td> --}}
         </tr>
 
         <div id="editResidentsModal{{$clearance->id}}" class="modal fade">
@@ -144,23 +138,18 @@
               </div>
               <div class="modal-body">
                 <div>
-                  <form method="post" action="messages/custom">
+                  <form method="POST" action="sendSMS">
                     @csrf
                     <div class="form-group">
                       <label>Phone Number</label>
-                      <input type="tel" class="form-control" name="phone_number" value="{{$clearance->phone_number}}">
+                      <input type="tel" class="form-control" name="contact_number" value="{{$clearance->contact_number}}" >
                   </div>
-                    {{-- <div class="form-group">
-                        <label>Select users to notify</label>
-                        <select name="users[]" multiple class="form-control">
-                            @foreach ($users as $user)
-                            <option>{{$user->phone_number}}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
                     <div class="form-group">
                         <label>Notification Message</label>
-                        <textarea name="body" class="form-control" rows="3"></textarea>
+                        <textarea name="message" class="form-control" rows="3" > Hello there {{$clearance->fullname}}, your request for the Certificate of Clearance has been approved. You can get your request on  DATE AND TIME HERE.
+
+From: PONCS Brngy Hall
+                        </textarea>
                     </div>
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Send Notification</button>
